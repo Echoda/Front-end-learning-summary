@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// 1.
+		// 常见状态码：
+		// 1开头：连接继续  2开头：各种意义上的成功
+		// 3开头：重定向    4开头：客户端错误
+		// 5开头：服务器端错误
+		// 200：请求成功，一切正常，数据成功返回
+		// 301：永久性重定向，请求的资源地址已更改，新的url会在定位响应头信息中给出，浏览器会自动连接到新的url
+		// 302：临时重定向，请求的资源已被分配了新的url，希望用户暂时能够使用新的url访问
+		// 303：请求的资源存在另一个url，应使用get方法定向获取请求的资源
+		// 403：(Foribidden) 服务器端理解本次请求，但拒绝执行任务，客户端没有权限访问
+		// 404：(Not Found) 请求的资源/页面无法找到，不存在 
+		// 503：服务器端无法响应，服务器正在维护或已经超载
+
+
+		// 2.
+		// 协议、域名、端口不都相同的情况下，就会产生跨域。
+
+		// 处理方法：
+		//         1.jsonp
+		//         2.服务器端设置Access-Control-Allow-Origin属性，允许跨域
+		//         3.iframe
+		//         4.使用自己的后端代理
+
+		// 封装jsonp原理
+		/*function ajax(options) {
+			var targetUrl = new URL(options.url);
+			// 判断是否同源
+			// url中没有协议，那么为相对路径，是同源的
+			if(options.url.indexOf('http://') == -1 && options.url.indexOf('https://') == -1){
+				targetUrl.protocol = location.protocol;
+				targetUrl.host = location.protocol;
+			}else {
+				// 同源
+				if(targetUrl.protocol == location.protocol && targetUrl.host == location.protocol){
+					var xhr = new XMLHttpRequest();
+					xhr.open(options.type,options.url);
+					xhr.send();
+					xhr.onreadystatechange = function () {
+						if(xhr.readyState == 4 && status == 200){
+							options.success(xhr.responseText);
+						} 
+					}
+				// 非同源
+				}else {
+					var script = document.createElement('script');
+					var callback = 'callback' + Math.random().toString().replace('.','');
+					script.src = options.url.indexOf('?') == -1 ? options.url + '?callback=' + callback : options.url + '&callback=' + callback;
+					window[callback] = options.success;
+					document.body.appendChild(script);
+				}
+			}
+		};
+		ajax({
+			url:'http://developer.duyiedu.com/edu/testJsonp',
+			type:'get',
+			dataType:'jsonp',
+			success:function (data) {
+				console.log(data);
+			}
+		});*/
+
+
+		/*
+		3.
+		网络请求方面：
+		  减少请求次数，提高请求和响应的速度。
+		页面渲染方面：
+		  减少页面的重绘和重排。
+		*/X
+
+
+		/*
+		4.
+		cookie：可长期存储，不同域名存各自的cookie
+		webStorage：
+		        localStorage：可长期存储，多窗口/页面共享，同一浏览器共享
+				sessionStorage：生命周期为关闭浏览器，只在同一窗口/页面共享
+		*/
+
+		/* 
+		 5.
+		 1.无前提和规范，只考虑语法和理论上的HTTP协议的话，get和post请求几乎无差别，只是名字不同
+		 2.在基于RFC规范的前提下，
+	       理论上：它们具有相同的语法，除语义不同（get：获取数据，post：发送数据），其他无差别
+	       实现上：
+	              1.get请求的参数在url中可见，post请求数据不显示在url中，在Request body中；
+	              2.get请求对传递参数长度有限制，post无限制；
+	              3.get请求可收藏为书签，post不可以；
+	              4.get请求后，按后退/刷新按钮无反应，post请求则会重新加载数据；
+	              5.get请求数据编码格式只能是application/x-www-form-urlencoded，
+	                post请求还可以是multipart/form-data（可发送文件）；
+	              6.get请求的历史参数会被保存到浏览器中，post不会；
+	              7.get请求只允许ASCII编码，post无限制，且允许发二进制；
+	              8.get请求安全性相对较差，因为所发数据为url的一部分，且会被保存到浏览器中；
+	              9.GET产生一个TCP数据包；POST产生两个TCP数据包。（对于GET方式的请求，浏览器会把
+	              http header和data一并发送出去，服务器响应200（返回数据）；而对于POST，浏览器先发送
+	              header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）
+	    */
+
+	    /*
+	    6.
+	    1.DNS域名解析，通过查看缓存和DNS服务器获取目标IP地址
+	    2.向目标IP地址发送请求数据
+	    3.服务器端返回数据
+	    4.解析返回的数据文件
+	    5.根据html文件生成dom数
+	    6.根据css和计算样式生成css树
+	    7.根据dom树和css树生成render树
+	    8.页面布局和绘制
+	    */
+
+
+		/*
+	    7.
+	      tcp/ip协议是传输层的面向连接的可靠的传输协议。
+	      tcp三次握手是为了保证能建立安全可靠的连接，第一次握手是由客户端发起，客户端发送请求建立
+	    连接的报文，SYN位置1，当服务端收到消息后，向客户端回应确认消息报文，ACK确认帧置1，SYN位
+	    置1，到此时两次握手完成，客户端知道自己发的消息服务端可以收到，且自己也可以收到服务端返
+	    回的消息，但是对于服务端来讲，他还不知道自己发送的消息对方能不能收到，所以要进行第三次
+	    握手，也就是客户端要继续向服务端回应消息确认，ACK位置为1，至此，三次握手完成，可靠的连接建立。
+	      四次挥手是断开连接的机制，也是由客户端发起，首先客户端发送消息包请求断开连接，FIN位置1，
+	    因为此时服务端可能并未准备好断开连接，还有未发送完的消息，所以只回应确认报文，ACK位置1，
+	    稍后再发送FIN位置1的断开连接的消息，当客户端收到消息后，回应消息确认帧，ACK位置1，
+	    至此，四次挥手完成，连接断开。
+	    */
+
+
+	    /*
+	    8.
+	    TCP是面向连接的可靠的字节流服务协议；
+	    UDP是无连接的，不可靠的协议。
+	    */X
+
+
+	    /*
+	    9.
+	    http是一种网络协议，由请求（Request）：请求头+数据体 和响应（Reaponse）：响应头+数据体 组成
+	    */X
+
+
+	    /*
+	    10.
+	    http是公开的
+	    https是加密传输的
+	    */X
+
+
+	    /*11.
+	    重绘是页面样式和结构都重新绘制和布局，重排是页面结构重新布局。
+	    触发重绘和重排：
+	    js操作改变元素的样式和大小，位置时
+	    */X
+	              
+		 
+	</script>
+</body>
+</html>
