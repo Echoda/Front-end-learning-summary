@@ -1,0 +1,54 @@
+*{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.wrapper{
+	width: 400px;
+	margin: 100px auto;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 10px 15px;
+}
+
+/*过滤功能区域*/
+.wrapper .filter{
+	margin-bottom: 20px;
+}
+.wrapper .filter input{
+	width: 230px;
+	height: 25px;
+	border: 1px solid #999;
+	border-radius: 4px;
+	padding-left: 10px;
+	outline: none;
+}
+.wrapper .filter .btn{
+	color: #B7CAF5;
+	padding: 0 5px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.wrapper .filter .active{
+	color: #fff;
+	background-color: #B7CAF5;
+}
+
+/*列表区域*/
+.wrapper .list li{
+	border-bottom: 1px solid #999;
+	padding: 10px 0;
+}
+.wrapper .list img{
+	float: left;
+	margin-top: 2px;
+}
+.wrapper .list span{
+	display: block;
+	margin-left: 50px;
+}
+.wrapper .list .des{
+	color: #999;
+	font-size: 14px;
+}

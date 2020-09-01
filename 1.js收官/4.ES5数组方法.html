@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<ul>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<script>
+		var oLi = document.getElementsByTagName('li');
+		var arr = [
+		{name: '图图',age: 6,sex: 'm'},
+		{name: '琪琪',age: 5,sex: 'f'},
+		{name: '洋洋',age: 8,sex: 'm'},
+		{name: '豆豆',age: 3,sex: 'm'},
+		{name: '蓝蓝',age: 7,sex: 'f'}
+		];
+		var obj = {name: 'sunshine'};
+
+
+
+		Array.prototype.myReduce = function (func,initTemp){
+			var temp = initTemp;
+			var len = this.length;
+			for(var i = 0;i < len;i ++){
+				temp = func(temp,this[i],i,this);
+			}
+			return temp;
+		}
+
+		// var result = arr.myReduce(function (temp,ele,index,self){ //temp默认为数组第一位元素
+		// 	// console.log(temp);
+		// 	return temp + ele.age;   //结果return给下一次函数执行时的temp 
+		// },0);
+		// console.log(result);
+
+		var cokieStr = "_uuid=CB48C547-7FF3-D04E-36BB-F957FF6F499755398infoc; buvid3=8AA7FD9D-026B-4E64-877D-52463EBB4E35190962infoc; LIVE_BUVID=AUTO4115727490566243; CURRENT_FNVAL=16; stardustvideo=1; rpdid=|(Jlkllkll|~0J'ul~k~Rmuul; sid=m4yvckjt; Hm_lvt_8a6e55dbd2870f0f5bc9194cddf32a02=1585918759; DedeUserID=407417664; DedeUserID__ckMd5=372fe5283e361393; bili_jct=ebe78710657796d8be49058d8c574e54; CURRENT_QUALITY=80; finger=158939783; PVID=4; bp_t_offset_407417664=426992742194377960";
+
+		function parseCookieStr (cokieStr) {
+			var obj = {};
+			var newStr = cokieStr.split('; ');     //以';'加空格分割
+
+			var result = newStr.myReduce(function (temp,ele,index) {
+				var newele = ele.split('=');
+				// console.log(index);
+				// console.log(temp);
+				temp[newele[0]] = newele[1];
+				return temp;
+			},obj)
+			return result;
+		}
+		var cookirObj = parseCookieStr(cokieStr);
+		console.log(cookirObj);
+
+
+
+
+
+
+		// Array.prototype.myEvery = function (func,_this){
+		// 	var _this = arguments[1] || window;
+		// 	var len = this.length;
+		// 	var result = true;
+		// 	for(var i =0;i < len;i ++){
+		// 		if(!func.call(_this,this[i],i,this)){
+		// 			result = false;                     //类似逻辑与 &&
+		// 			break;                              //返回布尔值 判断是否每一项都符合条件
+		// 		}
+		// 	}
+		// 	return result;
+		// }
+
+		// var result = arr.myEvery(function (ele,index,self) {
+		// 	return ele.age > 2;
+		// },obj);
+		// console.log(result);
+
+
+
+
+		// Array.prototype.mySome = function (func,_this){
+		// 	var _this = arguments[1] || window;
+		// 	var len = this.length;
+		// 	var result = false;
+		// 	for(var i =0;i < len;i ++){
+		// 		if(func.call(_this,this[i],i,this)){
+		// 			result = true;                      //类似逻辑或 ||
+		// 			break;                              //返回布尔值 判断是否含有符合条件的元素  找到一个符合的就停止
+		// 		}
+		// 	}
+		// 	return result;
+		// }
+
+		// var result = arr.mySome(function (ele,index,self) {
+		// 	return ele.age > 8;                      
+		// },obj);
+		// console.log(result);
+
+
+
+
+		// Array.prototype.myFilter = function(func,_this){
+		// 	var _this = arguments[1] || window;
+		// 	var len = this.length;
+		// 	var newArr = [];
+		// 	for(var i = 0;i < len;i ++){
+		// 		if(func.call(_this,this[i],i,this)){
+		// 			newArr.push(this[i]);
+		// 		}
+		// 	}
+		// 	return newArr;
+		// }
+
+		// var newArr = arr.myFilter(function (ele,index,self) {
+		// 	console.log(this);
+		// 	return ele.age > 5;                     //返回新数组 return值ture/false决定是否在新数组中
+		// },obj);
+		// console.log(newArr);
+
+
+
+
+		// Array.prototype.myMap = function (func,_this) {  
+		// 	var _this = arguments[1] || window;
+		// 	var len = this.length;
+		// 	var newArr = [];
+		// 	for(var i = 0;i < len;i ++){
+		// 		newArr.push( func.apply(_this,[this[i],i,this]) );
+		// 	}
+		// 	return newArr;
+		// }
+
+		// var newArr = arr.myMap(function (ele,index,self) {
+		// 	console.log(this);
+		// 	return ele.age + 10;                       //返回新数组 return的值决定新数组每一项的值
+		// },obj);
+
+		// console.log(newArr);
+
+
+
+		// Array.prototype.myForEach = function (func,_this) {
+		// 	var _this = arguments[1] || window;
+		// 	var len = this.length;
+		// 	for(var i = 0;i < len;i ++){
+		// 		func.apply(_this,[this[i],i,this]);
+		// 	}
+		// }
+		// arr.myForEach(function (ele,index,self) {
+		// 	oLi[index].innerText = ele.name;
+		// 	console.log(this);
+		// },obj);
+	</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	/*div{
+		position: absolute;
+		top: 0;
+		left: 0px;
+		background-color: orange;
+		width: 100px;
+		height: 100px;
+		opacity: 0.1;
+	}*/
+	/*span{
+		position: absolute;
+		top: 0;
+		left: 300px;
+		width: 1px;
+		height: 100px;
+		background-color: green;
+	}
+    button{
+        margin-top: 120px;
+    }*/
+    /*div{
+    	position: absolute;
+    	top: 200px;
+    	left: -400px;
+    	width: 400px;
+    	height: 100px;
+    	background-color: orange;
+    }
+    span{
+    	position: absolute;
+    	right: -50px;
+    	width: 50px;
+    	height: 100%;
+    	background-color: darkorange;
+    }*/
+    div{
+    	position: absolute;
+    	width: 100px;
+    	height: 100px;
+    	background-color: orange;
+    	margin-bottom: 50px;
+    }
+    #top{
+    	top: 0;
+    }
+    #bottom{
+    	top: 200px;
+    }
+</style>
+<body>
+	<!-- <div><span></span></div> -->
+	<div id="top"></div>
+	<div id="bottom"></div>
+	<!-- <div></div>
+	<div></div> -->
+	<!-- <span></span> -->
+    <!-- <button>run</button> -->
+	<script>
+        var oDiv = document.getElementsByTagName('div');
+        // var oDiv = document.getElementsByTagName('div')[0];
+        // var btn = document.getElementsByTagName('button')[0];
+
+        // oDiv[0].onclick = function () {
+        //     startMove(this,{'left': 400});
+        // }
+
+
+        // 多物体不同值 + 回调
+		oDiv[0].onclick = function () {
+			startMove(
+				this,
+				{'width': 250, 'height': 250, 'opacity': 0.3, 'top': 200, 'left': 200},
+				function () {
+					startMove(oDiv[1],{'width': 250, 'height': 250, 'opacity': 0.3, 'top': 200, 'left': 200})
+				}
+			)
+			
+		}
+
+		function startMove (dom,obj,callback) {
+            clearInterval(dom.timer); //先清除定时器
+            var iSpeed = 0,
+	            iCur = 0;
+
+            dom.timer = setInterval(function () {
+            	var bStop = true;
+            	for(var attr in obj){
+
+	            	iCur = parseFloat(getStyle(dom,attr));
+
+	            	if(attr == 'opacity'){
+	            		iSpeed = ( obj[attr] * 100 -  iCur * 100 )/8 ;
+
+	            	}else{
+		            	iSpeed = (obj[attr] - iCur )/8;
+		            	iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed); 
+
+	            	}          
+	                if( iCur !== obj[attr]){
+	                	bStop = false;       //有一项未满足都不会停止定时器
+
+	                	if(attr == 'opacity'){
+	                		dom.style[attr] = ( parseInt( iCur * 100 + iSpeed ) )/100;
+	                		
+	                	}else {
+		                    dom.style[attr] = iCur + iSpeed + 'px';
+	                	}
+	                }
+            	}
+                if(bStop){
+                	clearInterval(dom.timer);
+                	callback && callback();
+                }
+            },30)
+        }
+
+        //获取样式
+        function getStyle (dom,attr) {      //结果为string类型
+        	return window.getComputedStyle(dom,null)[attr] || dom.currentStyle[attr];
+        }
+
+
+
+
+	    // 多物体运动
+        // for(var i = 0;i < oDiv.length;i ++){
+	       //  oDiv[i].onmouseenter = function (e) {
+	       //  	startMove(this,400);
+	       //  }
+	       //  oDiv[i].onmouseleave = function (e) {
+	       //  	startMove(this,100);
+	       //  }
+        // }
+
+        // function startMove (dom,target) {
+        //     clearInterval(dom.timer); //先清除定时器
+        //     var iSpeed = 0,
+	       //      iCur = 0;
+
+        //     dom.timer = setInterval(function () {
+        //     	iCur = parseInt(getStyle(dom,'width'));
+        //     	iSpeed = (target - iCur )/8;  //速度逐渐减小
+        //     	//当iSpeed最后值很小时，由于offsetLeft每次取值会四舍五入，所以不起作用，需要对其取整
+        //     	iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);            
+        //         if( iCur == target){
+        //             clearInterval(dom.timer);
+        //         }else{
+        //             dom.style.width = iCur + iSpeed + 'px';
+	       //          console.log('1');
+        //         }
+        //     },30)
+        // }
+
+
+
+		// 透明度缓冲
+  //       oDiv.onclick = function () {
+  //       	startMove(oDiv,1);
+  //       }
+
+  //       function startMove (dom,target) {
+  //           clearInterval(dom.timer); //先清除定时器
+  //           var iSpeed = 0,
+	 //            iCur = 0;
+
+  //           dom.timer = setInterval(function () {
+  //           	iCur = parseFloat( getStyle(oDiv,'opacity') );
+  //           	iSpeed = ( target * 100 -  iCur * 100 )/8 ;
+
+  //               if( iCur == target){
+  //                   clearInterval(dom.timer);
+  //               }else{
+  //                   dom.style.opacity = ( parseInt( iCur * 100 + iSpeed ) )/100;
+  //               }
+  //               console.log(iCur);
+  //           },30)
+  //       }
+
+
+
+
+		// 运动缓冲--
+        // oDiv.onmouseenter = function () {
+        // 	startMove(this,0);
+        // }
+        // oDiv.onmouseleave = function () {
+        // 	startMove(this,-400);
+        // }
+
+        
+        // btn.onclick = function () {
+        //     startMove(oDiv,300);
+        // }
+
+        // function startMove (dom,target) {
+        //     clearInterval(dom.timer); //先清除定时器
+        //     var iSpeed = 0;
+
+        //     dom.timer = setInterval(function () {
+        //     	iSpeed = (target -  dom.offsetLeft)/8;  //速度逐渐减小
+        //     	//当iSpeed最后值很小时，由于offsetLeft每次取值会四舍五入，所以不起作用，需要对其取整
+        //     	iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);            
+        //         if( dom.offsetLeft == target){
+        //             clearInterval(dom.timer);
+        //         }else{
+        //             dom.style.left = dom.offsetLeft + iSpeed + 'px';
+        //         }
+        //     },30)
+        // }
+	</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.wrapper{
+		position: relative;
+		width: 400px;
+		height: 250px;
+		margin: 100px auto 0;
+		overflow: hidden;
+	}
+	.wrapper .slidePage{
+		position: absolute;
+		top: 0;
+		left: 0;
+		/*width: 1600px;*/
+		height: 100%;
+	}
+	.wrapper .slidePage li{
+		float: left;
+		width: 400px;
+		height: 100%;
+	}
+	.wrapper .slidePage img{
+		width: 100%;
+		height: 100%;
+	}
+	.btn{
+		position: absolute;
+		top: 50%;
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		margin-top: -15px;
+		color: #fff;
+		font-weight: 700;
+		background-color: #000;
+		border-radius: 5px;
+		opacity: .2;
+		cursor: pointer;
+	}
+	.leftBtn{
+		left: 10px;
+	}
+	.rightBtn{
+		right: 10px;
+	}
+	.wrapper:hover .btn{
+		opacity: .4
+	}
+	.index{
+		position: absolute;
+		left: 50%;
+		bottom: 10px;
+		transform: translateX(-50%);
+		height: 20px;
+		border-radius: 10px;
+		background-color: rgba(0,0,0,.3);
+	}
+	.index span{
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		background-color: rgba(255,255,255,.9);
+		border-radius: 50%;
+		margin: 5px;
+		cursor: pointer;
+	}
+	.index .active{
+		background-color: orange
+	}
+</style>
+<body>
+	<div class="wrapper">
+		<ul class="slidePage">
+			<li>
+				<img src="images/1.jpg">
+			</li>
+			<li>
+				<img src="images/3.jpg">
+			</li>
+			<li>
+				<img src="images/6.jpg">
+			</li>
+			<li>
+				<img src="images/13.jpg">
+			</li>
+			<li>
+				<img src="images/1.jpg">
+			</li>
+		</ul>
+		<div class="btn leftBtn">&lt;</div>
+		<div class="btn rightBtn">&gt;</div>
+		<div class="index"></div>
+	</div>
+	<script src="./startMove.js"></script>
+	<script>
+		var oUl = document.getElementsByClassName('slidePage')[0];
+		var leftBtn = document.getElementsByClassName('leftBtn')[0];
+		var rightBtn = document.getElementsByClassName('rightBtn')[0];
+		var oWrapper = document.getElementsByClassName('wrapper')[0];
+		var spanDiv = document.getElementsByClassName('index')[0];
+		var oSpans = spanDiv.getElementsByTagName('span');
+
+		var iWidth = oUl.children[0].offsetWidth,
+			len = oUl.children.length - 1,  //3
+			lock = false,
+			index = 0,
+			delay = 3000;
+
+		var timer = null; 
+		// 为ul设置足以容纳li的宽度
+		oUl.style.width = iWidth * (len + 1) + 'px';
+
+		createSpan();
+		moveAuto(oUl,delay);
+
+		//按钮绑定点击事件
+		leftBtn.onclick = function () {
+				moveLeft(oUl);
+		}
+		rightBtn.onclick = function () {
+				moveRight(oUl);
+		}
+
+		oWrapper.onmouseenter = function () {
+			console.log('e');
+			clearInterval(timer);
+		}
+		oWrapper.onmouseleave = function () {
+			console.log('l')
+			moveAuto(oUl,delay);
+		}
+
+		//自动轮播
+		function moveAuto (dom,delay) {
+				timer = setInterval(function () {
+					moveRight(dom,delay);
+					// console.log(lock);
+				},delay)
+		// console.log(timer);
+		}
+
+		//右移一步
+		function moveRight (dom) {
+			if(!lock){
+				lock = true;
+				// console.log(lock)
+				// clearInterval(timer);  //这里不需要清除定时器，否则自动播放只移动一次就停止了
+				startMove(dom,{'left': dom.offsetLeft - iWidth},function () {
+					index ++;
+					if(dom.offsetLeft == - len * iWidth){
+						dom.style.left = '0px';
+						index = 0;
+					}
+					lock = false;
+					changeIndex(index);
+				})
+			}
+		}
+
+		//左移一步
+		function moveLeft (dom) {
+			if(!lock){
+				lock = true;
+				// console.log(lock)
+				if(dom.offsetLeft == 0){
+					dom.style.left = - len * iWidth + 'px';
+					index = len;
+				}
+				startMove(dom,{'left': dom.offsetLeft + iWidth},function () {
+					lock = false;
+					index --;
+					changeIndex(index);
+				})
+			}
+		}
+
+		//根据len创建span并绑定点击事件
+		function createSpan () {
+			var template = ``;
+			for(var i = 0;i < len;i ++){
+				template += `<span></span>`;
+			}
+			spanDiv.innerHTML = template;
+			oSpans[0].className = 'active';
+			for(var i = 0;i < len;i ++){
+				(function (j) {
+					oSpans[i].onclick = function () {
+						if(!lock){
+							lock = true;
+							startMove(oUl,{'left': - j * iWidth},function () {
+								lock = false;
+								index = j;
+								changeIndex(index);  //这一步index要同步改变，不能直接changeIndex(j)
+							});
+						}
+					}
+				})(i)
+			}
+		}
+
+		//改变激活状态的span样式
+		function changeIndex (_index) {
+			for(var i = 0;i < len; i ++){
+				oSpans[i].className = '';
+			}
+			oSpans[_index].className = 'active';
+		}
+
+	</script>
+</body>
+</html>

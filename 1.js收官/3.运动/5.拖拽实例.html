@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	div{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100px;
+		height: 100px;
+		background-color: orange;
+		border-radius: 50%;
+	}
+	span{
+		position: absolute;
+		/*width: 2px;
+		height: 2px;
+		background-color: lightblue;*/
+	}
+</style>
+<body>
+	<div></div>
+	<script>
+		var oDiv = document.getElementsByTagName('div')[0];
+
+		oDiv.onmousedown = function (e) {
+			clearInterval(this.timer);  //清除bounce函数控制运动的定时器，使运动中的dom被点击时停止
+
+			var iLeft = e.pageX - this.offsetLeft;
+			var iTop = e.pageY - this.offsetTop;
+			// console.log(e.pageX,iLeft)
+			var prevX = 0,  //上一个轨迹点的x坐标
+			    prevY = 0,
+			    lastX = 0,  //当前轨迹点的x坐标
+			    lastY = 0;
+
+			var iSpeedX = 0,
+				iSpeedY = 0;
+
+			document.onmousemove = (e) => {
+				prevX = lastX;
+				prevY = lastY;
+				this.style.left = e.pageX - iLeft + 'px';
+				this.style.top = e.pageY - iTop + 'px';
+				//创建轨迹点
+				var oSpan = document.createElement('span');
+				oSpan.style.top = this.offsetTop + 'px';
+				oSpan.style.left = this.offsetLeft + 'px';
+				document.body.appendChild(oSpan);
+
+				lastX = oSpan.offsetLeft;
+				lastY = oSpan.offsetTop;
+
+				iSpeedX = lastX - prevX;
+				iSpeedY = lastY - prevY;
+			}
+
+			document.onmouseup = () => {
+				document.onmousemove = null;
+				document.onmouseup = null;
+				bounce(this,iSpeedX,iSpeedY);
+			}
+		}
+
+
+		function bounce (dom,speedX,speedY) {
+			clearInterval(dom.timer);
+			var iSpeedX = speedX,
+				iSpeedY = speedY,
+				g = 3,        //重力加速度
+				u = 0.8,      //能量损耗
+				newTop = 0,
+				newLeft = 0,
+				iHeight = document.documentElement.clientHeight - dom.clientHeight, //dom元素可以的最大高度
+				iWidth = document.documentElement.clientWidth - dom.clientWidth;  //宽度范围
+
+			dom.timer = setInterval(function () {
+				newTop = dom.offsetTop + iSpeedY;
+				newLeft = dom.offsetLeft + iSpeedX;
+
+				if(newTop >= iHeight){      //碰撞检测
+					newTop = iHeight;
+					iSpeedX *= u;
+					iSpeedY *= u;
+					iSpeedY *= -1;
+				}
+				if(newTop <= 0){
+					newTop = 0;
+					iSpeedX *= u;
+					iSpeedY *= u;
+					iSpeedY *= -1;
+				}
+				if(newLeft >= iWidth){
+					newLeft = iWidth;
+					iSpeedX *= u;
+					iSpeedY *= u;
+					iSpeedX *= -1;
+				}
+				if(newLeft <= 0){
+					newLeft = 0;
+					iSpeedX *= u;
+					iSpeedY *= u;
+					iSpeedX *= -1;
+				}
+				iSpeedY += g;
+
+				if(Math.abs(iSpeedX) < 1 ){
+					iSpeedX = 0;
+				}
+				if(Math.abs(iSpeedY) < 2 ){
+					iSpeedY = 0;
+				}
+				if(iSpeedX == 0 && iSpeedY == 0 && newTop == iHeight){  //停止条件判断
+					clearInterval(dom.timer);
+				}else {
+					dom.style.top =  newTop + 'px';
+					dom.style.left = newLeft + 'px';
+					// console.log(iSpeedX,iSpeedY);
+				}
+
+			},30)
+		}
+	</script>
+</body>
+</html>

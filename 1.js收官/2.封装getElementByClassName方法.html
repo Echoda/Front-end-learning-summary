@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="wrapper">
+		<div class="demo   nav  "></div>
+		<div class="demodemo"></div>
+		<div class=" demo  first     second " id="hh">
+			<div class=" demo  last"></div>
+		</div>
+		<div class="      demo second "></div>
+		<div class="      demo last "></div>
+	</div>
+	<script>
+		//多个参数/类名
+
+		Element.prototype.getElementsByClassName = Document.prototype.getElementsByClassName =  function(_className) {
+
+			var args = trimSpace(_className).split(' ');
+
+			var allDomArry = this.querySelectorAll('*');
+			// console.log(allDomArry);
+			allDomArry.forEach(function(item){
+
+				var domStr = trimSpace(item.className);
+				var domNameArr = domStr.split(' ');
+				// console.log(domNameArr);
+
+				var flag = true;
+				for(var key in args){
+					// console.log(args[key]);
+					// console.log(domNameArr.includes(args[key]));
+					flag = flag && (domNameArr.includes(args[key]));
+				}
+					// console.log(flag);
+
+				if(flag){
+					console.log(item);
+				}
+			})
+		}
+
+		function trimSpace(str){
+			var reg = /\s+/g;
+			return str.replace(reg,' ').trim();
+		}
+		document.getElementById('hh').getElementsByClassName('demo last');
+
+	</script>
+</body>
+</html>

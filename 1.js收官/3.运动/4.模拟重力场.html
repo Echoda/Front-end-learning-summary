@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	div{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100px;
+		height: 100px;
+		background-color: orange;
+		border-radius: 50%;
+	}
+</style>
+<body>
+	<div></div>
+	<script>
+		// 多方向运动 + 碰撞检测 + 重力加速度 + 能量损耗
+		var oDiv = document.getElementsByTagName('div')[0];
+
+		oDiv.onclick = function () {
+			bounce(this);
+		}
+
+		function bounce (dom) {
+			clearInterval(dom.timer);
+			var iSpeedX = 8,
+				iSpeedY = 8,
+				g = 3,        //重力加速度
+				u = 0.8,      //能量损耗
+				newTop = 0,
+				newLeft = 0,
+				iHeight = document.documentElement.clientHeight - dom.clientHeight, //dom元素可以的最大高度
+				iWidth = document.documentElement.clientWidth - dom.clientWidth;  //宽度范围
+
+			dom.timer = setInterval(function () {
+				newTop = dom.offsetTop + iSpeedY;
+				newLeft = dom.offsetLeft + iSpeedX;
+
+				if(newTop >= iHeight){      //碰撞检测
+					newTop = iHeight;
+					iSpeedX *= u;
+					iSpeedY *= u;
+					iSpeedY *= -1;
+				}
+				if(newTop <= 0){
+					newTop = 0;
+					iSpeedX *= u;
+					iSpeedY *= u;
+					iSpeedY *= -1;
+				}
+				if(newLeft >= iWidth){
+					newLeft = iWidth;
+					iSpeedX *= u;
+					iSpeedY *= u;
+					iSpeedX *= -1;
+				}
+				if(newLeft <= 0){
+					newLeft = 0;
+					iSpeedX *= u;
+					iSpeedY *= u;
+					iSpeedX *= -1;
+				}
+				iSpeedY += g;
+
+				if(Math.abs(iSpeedX) < 1 ){
+					iSpeedX = 0;
+				}
+				if(Math.abs(iSpeedY) < 2 ){
+					iSpeedY = 0;
+				}
+				if(iSpeedX == 0 && iSpeedY == 0 && newTop == iHeight){  //停止条件判断
+					clearInterval(dom.timer);
+				}else {
+					dom.style.top =  newTop + 'px';
+					dom.style.left = newLeft + 'px';
+					// console.log(iSpeedX,iSpeedY);
+				}
+
+			},30)
+		}
+	</script>
+</body>
+</html>

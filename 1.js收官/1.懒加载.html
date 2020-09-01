@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	#demo{
+		position: absolute;
+		top: 1500px;
+		width: 100px;
+		height: 100px;
+		background-color: red;
+	}
+</style>
+<body>
+	<div id="demo" style="opacity: 0.3;"></div>
+	<script>
+		//通过oDiv.timer的方式开启多个定时器会产生覆盖，但前面的定时器依然存在，并不会清除（ oDiv指向了定时器任务 但是你覆盖了只是指向了另一个定时器 前面的定时器还是存在的）
+		var flag = true;
+
+		function check(_id){
+			var oDiv = document.getElementById(_id);
+
+			if(oDiv.offsetTop <= window.pageYOffset + window.innerHeight){
+				flag = false;        //在div出现时就让flag = false，此时开启了一个定时器，在 opacity = 1 时会停止
+				oDiv.timer = setInterval(function () {
+					if(oDiv.style.opacity == '1'){
+						flag = false;   //而不是在opacity = 1时让flag = false，这样在opacity < 1时开启了多个定时器
+						clearInterval(oDiv.timer);
+						console.log('clear');
+					}                         
+						oDiv.style.opacity = parseFloat(oDiv.style.opacity) + 0.1;
+						console.log(oDiv.style.opacity);
+				},60);
+			}
+		}
+
+		window.onscroll = function(){
+			if(flag){
+				check('demo');
+				console.log('check');
+			}
+		}
+	</script>
+</body>
+</html>

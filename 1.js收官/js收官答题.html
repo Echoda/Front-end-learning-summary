@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	#idDiv{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100px;
+		height: 100px;
+		background-color: orange;
+	}
+	.classDiv{
+		position: absolute;
+		top: 0;
+		left: 300px;
+		width: 1px;
+		height: 100px;
+		background-color: #000;
+	}
+</style>
+<body>
+	<div id="idDiv" class="classDiv aa"></div>
+	<div class="classDiv"></div>
+	<div></div>
+	<script>
+	var dom = document.getElementById('idDiv');
+	// 一、
+	// 1.C 2.D 3.D 4.B 5.D
+
+	// 二、
+	// 1.浏览器对象模型 浏览器
+	// 2.history.go(-2)
+	// 3.for
+	// 4.forEach
+	// 5.dom.offsetTop >= window.documentElement.clientHeight - dom.clientHeight
+
+	// 三、
+	// 1.
+	// var arr = [
+	// 	{name:'cst', age:'18'},
+	// 	{name:'jc', age:'20'},
+	// 	{name:'dxm', age:'50'},
+	// 	{name:'dcg', age:'30'},
+	// 	];
+	// var newArr = arr.filter(function (ele) {
+	// 	return ele.name.indexOf('c') != -1;
+	// })
+	// var lastArr = newArr.map(function (ele) {
+	// 	// ele.age = (parseInt(ele.age) * 2).toString();
+	// 	ele.age *= 2;
+	// 	return ele;
+	// })
+	// console.log(lastArr);
+
+	// 2.
+	// 协议：https   ://   主机：www.baidu.com  路径：/s  ?  参数：ie=utf-8 & f=8
+	var urlStr = 'https://www.bilibili.com/video/BV1f4411R7M5?p=51';
+	// 原答案
+	// function parUrl (urlstr) {
+	// 		var urlObj = {
+	// 		protocol: '',
+	// 		host: '',
+	// 		path: '',
+	// 		search:{}
+	// 	};
+	// 	var newUrlStr = urlStr.replace('://',' ').replace('/',' /').replace('?',' ');
+
+	// 	var urlArr = newUrlStr.split(' ');
+	// 	var len = urlArr.length;
+
+	// 	var i = 0;
+	// 	for(var k in urlObj){
+	// 		urlObj[k] = urlArr[i];
+	// 		i ++;
+	// 		if(i == len - 1){
+	// 			break;
+	// 		}
+	// 	}
+
+	// 	urlArr[len - 1].split('&').forEach(function (ele) {
+	// 		urlObj.search[ele.split('=')[0]] = ele.split('=')[1];
+	// 	});
+	// 	return urlObj;
+	// }
+	// console.log(parUrl(urlStr));
+
+	// var url = new URL('https://www.bilibili.com/video/BV1f4411R7M5?p=51&c=aa');
+
+	// function urlToObj (url) {
+	// 	var result = {
+	// 	  protocol:  url.protocol,  
+	// 	  host: url.hostname, //host: 主机名和当前 URL 的端口号  hostname: 主机名
+	// 	  path: url.path,  
+	// 	  search: {}
+	// 	}
+	// 	var str = url.search.substr(1);
+		// 第一种 forEach
+		// str.split('&').forEach(function (ele) {
+		// 	result.search[ele.split('=')[0]] = ele.split('=')[1];
+		// });
+		// 第二种 reduce
+		// str.split('&').reduce(function (pre,cur) {
+		// 	var item = cur.split('=');
+		// 	pre[item[0]] = item[1];
+		// 	return pre;
+		// },result.search);
+		// 第三种 for..of遍历 url.searchParams
+	// 	console.log(url.searchParams);                  //？？？？？？？？？？？？？
+	// 	for(param of url.searchParams){
+	// 		console.log(param);
+	// 		result.search[param[0]] = param[1];
+	// 	}
+	// 	return result;
+	// }
+	// console.log(urlToObj(url));
+
+
+	// 3.
+	//原
+	// function getDom (str) {
+	// 	var domArr = document.getElementsByTagName('*');
+	// 	domArr = [].slice.call(domArr,5);
+	// 	var target = '';
+	// 	return domArr.filter(function (ele) {
+	// 		switch (str[0]) {
+	// 			case '#':
+	// 				target = str.slice(1);
+	// 				return ele.id == target;
+	// 				break;
+	// 			case '.':
+	// 				target = str.slice(1);
+	// 				return ele.classList.toString().indexOf(target) != -1;
+	// 				break;
+	// 			default:
+	// 				return ele.tagName.toLowerCase() == str;
+	// 				break;
+	// 		}
+	// 	});
+	// }
+	// console.log(getDom('#idDiv'));
+	// console.log(getDom('.classDiv'));
+	// console.log(getDom('div'));
+
+	// 答案
+	function trimClassName (dom) {  //去除多余空格
+	    var reg = /\s+/g;	    
+	    var newClassStr = dom.className.replace(reg, ' ');
+	    return newClassStr;
+	};     
+
+	function getByClass(_className) {
+	    var allDomArray = [].slice.call(document.getElementsByTagName('*'), 5); //伪数组变数组
+	    var newDomArray = [];
+	    allDomArray.forEach(function (ele, index) {
+	        var newClassStr = trimClassName(ele).trim();
+	        var classNameArray = newClassStr.split(' ');
+	        classNameArray.forEach(function (className, index) {
+	            if (className == _className) {
+	                newDomArray.push(ele);
+	            }
+	        })
+	    });
+	    return newDomArray;            
+	};
+	
+	function getDom(selector) {
+	    this.length = 0;
+	    if (selector.indexOf('.') != -1) {
+	        var dom = getByClass( selector.slice(1) );
+	    }else if (selector.indexOf('#') != -1) {
+	        var dom = document.getElementById( selector.slice(1) );
+	    }else {
+	        var dom = document.getElementsByTagName(selector);
+	    }
+	    return dom;
+	};
+	console.log(getDom('.classDiv'))
+
+	// 4.缓冲运动
+	// var oDiv = document.getElementById('idDiv');
+
+	// function move (dom,target) {
+	// 	var iSpeed = 10;
+	// 	clearInterval(dom.tomer);
+	// 	dom.timer = setInterval(function () {
+	// 		iSpeed = (target - dom.offsetLeft) / 10;
+	// 		iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+	// 		if(dom.offsetLeft == target){
+	// 			clearInterval(dom.timer);
+	// 		}else {
+	// 			dom.style.left = dom.offsetLeft + iSpeed +'px';
+	// 		}
+	// 	})
+	// }
+	// move(oDiv,300)
+
+	/*// 5.轮播图制作思路
+
+	// 1.根据ul中li的个数生成底部圆点，使用模板字符串
+
+	// 2.左移一步函数moveLeft
+	先判断ul的offsetLeft值，
+	若为0：迅速将ul移动到最后一张图的位置，index = 图片个数 - 2，
+	再左移，index --，changeIndex
+
+	// 3.右移一步函数moveRight
+	index ++，
+	判断ul的offsetLeft值，
+	若ul已经移动到最后一张图片时：迅速将ul移动到第一张图的位置，index = 0，
+	再继续右移，changeIndex
+
+	// 4.向右自动轮播函数moveAuto
+	清除定时器
+	开启定时器：每隔一段时间执行一次 moveRight
+
+	// 5.底部圆点样式改变函数changeIndex
+	变量index记录当前为active状态的圆点索引，
+	遍历圆点，设置类名为空，然后设置下标为index的圆点类名为active
+
+	// 6.为左右按钮分别绑定点击事件
+	为了防止连续点击按钮，在每次ul移动之前判断lock为假才进入执行，
+	执行时先设置lock=true，在移动完成时再设置lock=false
+
+	// 7.遍历底部圆点绑定点击事件，闭包问题，使用立即执行函数解决*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
