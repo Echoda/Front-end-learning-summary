@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var arr = [3,4,2,1,7,9,0];
+		function compare (arr,i,j) {
+			if(arr[i] < arr[j])return true;
+			else return false;
+		}
+
+		function exchange (arr,i,j) {
+			var temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
+		}
+
+		function bubblesort (arr) {
+			if(arr == null || arr.length == 0) return [];
+			for(var i = 0;i < arr.length - 1;i ++){
+				for(var j = 0;j < arr.length - 1 - i;j ++){
+					if(compare(arr,j,j + 1)){
+						exchange(arr,j,j + 1);
+					}
+				}
+			}
+			return arr;
+		}
+		console.log(bubblesort(arr));
+
+	</script>
+</body>
+</html>

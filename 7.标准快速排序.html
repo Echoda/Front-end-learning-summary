@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var arr = [4,5,3,1,7,2,9,5];
+
+		function exchange(arr,i,j) {
+			var temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
+		}
+
+		function quickSort (arr,begin,end) {
+			if(begin >= end - 1) return;
+			var left = begin + 1; //左指针开始的位置
+			var right = end - 1; //右指针开始的位置
+			while(left < right - 1){
+				while(arr[left] < arr[begin] && left < right){ left ++; } //内部left、right变时，外层条件不会判断
+				while(arr[right] > arr[begin] && left < right){ right --; }
+				arr[left] > arr[right] && exchange(arr,left,right);
+			}
+			if(arr[begin] > arr[left]) exchange(arr,begin,left);
+			quickSort(arr,begin,left);
+			quickSort(arr,left,end);
+		}
+		function sort (arr) {
+			quickSort(arr,0,arr.length);
+			console.log(arr);
+		}
+		sort(arr);
+	</script>
+</body>
+</html>
