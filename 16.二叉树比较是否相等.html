@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function Node(value) {
+			this.value = value;
+			this.left = null;
+			this.right = null;
+		}
+		var a1 = new Node('a');
+		var b1 = new Node('b'); 
+		var c1 = new Node('c'); 
+		var d1 = new Node('d'); 
+		var e1 = new Node('e'); 
+
+		a1.left = b1;
+		a1.right = c1;
+		b1.left = d1;
+		b1.right = e1;
+
+		var a2 = new Node('a');
+		var b2 = new Node('b'); 
+		var c2 = new Node('c'); 
+		var d2 = new Node('d'); 
+		var e2 = new Node('e');
+
+		a2.right = b2;
+		a2.left = c2;
+		b2.right = d2;
+		b2.left = e2;
+		// b2.left = d2;
+		// b2.right = e2;
+		// c2.left = e2;
+
+		function isEqual(root1,root2) {
+			if(root1 == root2) return true;
+			//不相等的情况：1.其中只有一个为null 2.值不相等
+			if((root1 == null && root2) || (root1 && root2 == null) || root1.value != root2.value) return false;
+			var left = isEqual(root1.left,root2.left);
+			var right = isEqual(root1.right,root2.right);
+			return left && right;
+
+			//若左右子树互换也算相等时
+			// var leftEqualRight = isEqual(root1.left,root2.right) && isEqual(root1.right,root2.left);
+			// return (left && right) || leftEqualRight;
+		}
+		console.log(isEqual(a1,a2));
+
+	</script>
+</body>
+</html>

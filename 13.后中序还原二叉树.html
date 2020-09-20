@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function Node(value){
+			this.value = value;
+			this.left = null;
+			this.right = null;
+		}
+
+		var zhong = 'dbeafcg';
+		var hou = 'debfgca';
+
+		function restoreByHz(hou,zhong,root){
+			//先判断
+			if(hou.length != zhong.length || hou.length == 1 || zhong.length == 1) return;
+			var rootIndex = zhong.indexOf(root.value);  //查找root.value的下标
+
+			var zhongLeft = zhong.slice(0, rootIndex);
+			var zhongRight = zhong.slice(rootIndex + 1, zhong.length);
+			var houLeft = hou.slice(0, zhongLeft.length);
+			var houRight = hou.slice(zhongLeft.length, hou.length - 1);
+
+			root.left = new Node(houLeft[houLeft.length - 1]);
+			root.right = new Node(houRight[houRight.length - 1]);
+
+			restoreByHz(houLeft,zhongLeft,root.left);
+			restoreByHz(houRight,zhongRight,root.right);
+		}
+
+		function restore(hou,zhong){
+			var root = new Node(hou[hou.length - 1]);
+			restoreByHz(hou,zhong,root);
+			return root;
+		}
+
+		console.log(restore(hou,zhong));
+	</script>
+</body>
+</html>

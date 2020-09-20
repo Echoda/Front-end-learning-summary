@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function Node(value){
+			this.value = value;
+			this.left = null;
+			this.right = null;
+		}
+
+		var qian = 'abdecfg'; //前序
+		var zhong = 'dbeafcg'; //中序
+
+		function restoreByQz(qian,zhong,root){
+			//当前序不等于中序的长度（错误） 
+			// 或 前序长度为1 或 中序长度为1（长度为1则只有一个节点，没有left和right）
+			// 时直接返回
+			if(qian.length != zhong.length || qian.length == 1 || zhong.length == 1) return;
+			var rootIndex = zhong.indexOf(root.value);
+
+			var zhongLeft = zhong.slice(0, rootIndex);
+			var zhongRight = zhong.slice(rootIndex + 1, zhong.length);
+			var qianLeft = qian.slice(1, 1 + zhongLeft.length);
+			var qianRight = qian.slice(1 + zhongLeft.length, qian.length);
+
+			root.left = new Node(qianLeft[0]);
+			root.right = new Node(qianRight[0]);
+
+			restoreByQz(qianLeft,zhongLeft,root.left);
+			restoreByQz(qianRight,zhongRight,root.right);
+			// return root;
+		}
+
+		function restore(qian,zhong){
+			var root = new Node(qian[0]);
+			restoreByQz(qian,zhong,root);
+			return root;
+		}
+
+		console.log(restore(qian,zhong));
+	</script>
+</body>
+</html>

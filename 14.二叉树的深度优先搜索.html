@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function Node(value){
+			this.value = value;
+			this.left = null;
+			this.right = null;
+		}
+		var a = new Node('a');
+		var b = new Node('b');
+		var c = new Node('c');
+		var d = new Node('d');
+		var e = new Node('e');
+		var f = new Node('f');
+		var g = new Node('g');
+
+		a.left = b;
+		a.right = c;
+		b.left = d;
+		b.right = e;
+		c.left = f;
+		c.right = g;
+
+		var isGo = true;//isGo为true时，递归执行，一旦找到target，isGo为false，立即退出递归
+
+		function searchDeepPrior(root,target){
+			while(isGo){
+				if(root == null) return false;
+				// console.log(root.value);
+				if(root.value == target) {
+					isGo = false;
+					return true;
+				}
+				var left = searchDeepPrior(root.left,target);
+				var right = searchDeepPrior(root.right,target);
+				return left || right;   //左子树或右子树任意一边找到target即为真
+			}
+		}
+		console.log(searchDeepPrior(a,'c'));
+
+	</script>
+</body>
+</html>
