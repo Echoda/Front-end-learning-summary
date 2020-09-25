@@ -2,9 +2,218 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>选择器</title>
+	<script src="js/jquery-3.4.1.js"></script>
 </head>
+<style>
+	li{
+		margin-top: 5px;
+	}
+</style>
 <body>
-	
+<!-- 基础选择器 -->
+<!-- 层级选择器 -->
+	<ul id="list">
+		<li>red</li>
+		<li>red</li>
+		<li class="red">red</li>
+		<li>red</li>
+		<li>red</li>
+	</ul>
+	<p class="red"></p>
+
+	<div>
+		<a href="#" class="link">link链接</a>
+		<a href="#">链接</a>
+		<a href="#">链接</a>
+		<a href="#">链接</a>
+		<p>
+			<a href="#">p中a链接</a>
+		</p>
+	</div>
+	<hr>
+	<hr>
+
+<!-- 属性选择器 -->
+	<h1>属性</h1>
+	<ul id="ulColor">
+		<li class="red">red</li>
+		<li title="blue">blue</li>
+		<li title="css-1">css-1</li>
+		<li id="color1-green">color1-green</li>
+		<li id="red-1color">red-1color</li>
+		<li lang="encnhk">encnhk</li>
+		<li lang="en cn">en cn</li>
+		<li class="cl" name= 'sun'>cl sun</li>
+	</ul>
+	<hr>
+	<hr>
+
+<!-- 基础过滤选择器 -->
+	<h1>基础过滤</h1>
+	<ol id="olColor">
+        <li>color</li>
+        <li>color</li>
+        <li lang="en">lang=en</li>
+        <li id="tar">id=tar</li>
+		<li>color</li>
+	</ol>
+	<h1>h1</h1>
+	<h2>h2</h2>
+	<h3>h3</h3>
+	<h4>h4</h4>
+
+<!-- 子元素过滤 -->
+	<h1>子元素过滤</h1>
+	<div id="paragraph">
+		<p>p</p>
+		<p>p</p>
+		<span>span</span>
+		<p>p</p>
+		<span>span</span>
+		<p>p</p>
+		<span>span</span>
+		<div id="only">
+			<p>唯一的子元素p</p>
+		</div>
+		<div id="only-three">
+			<span>three-span</span>
+			<p>three-p</p>
+			<p>three-p</p>
+		</div>
+	</div>
+
+<!-- 内容过滤选择器 -->
+	<h1>内容过滤</h1>
+	<div id="content">sun</div>
+	<div></div>
+	<div id="has">
+		<div>
+			div
+			<p>段落</p>
+		</div>
+	</div>
+	<div id="title">
+		div
+		<h1>title大标题</h1>
+	</div>
+
+<!-- 表单过滤选择器 -->
+	<h1>表单过滤</h1>
+	<input type="button" value="按钮1">
+	<button>按钮2</button>
+	<div id="sex">
+		<input type="checkbox">男
+		<input type="checkbox">女
+	</div>
+	<div>
+		<input type="checkbox" checked>男
+		<input type="checkbox">女
+	</div>
+
+	<script>
+	// 表单过滤选择器
+		// 选择所有的button
+		$(':button').css('border','1px solid yellow');
+		//将checkbox用span单独包裹，并选到span
+		$('#sex input:checkbox').wrap('<span></span>').parent().css('border','1px solid purple');
+		//将checkbox一起用一个span包裹
+		// $('#sex input:checkbox').wrapAll('<span></span>').parent().css('border','1px solid purple');
+		$(':checked').wrap('<span></span>').parent().css('background','yellowgreen');
+
+
+	//内容过滤选择器
+		//包含文本'sun'
+		$('#content:contains(sun)').css('background','pink');
+		//内容为空的div
+		$('div:empty').css({
+			width:'100px',
+			height:'30px',
+			background:'green'
+		});
+		//id为has且包含p标签的div
+		$('#has:has(p)').css('border','1px solid blue');
+		//含有子元素或文本的父级元素
+		$('#title:parent').css('background','yellowgreen');
+
+
+	// 子元素过滤
+		// 层级内第一个子元素，且是p标签
+		// $('#paragraph p         :first-child').css('color','pink');
+		//层级内第二个子元素，且必须是p标签
+		$('#paragraph p:nth-child(2)').css('color','yellow');
+
+		//层级内第一个span标签，不一定是第一个子元素
+		$('#paragraph span:first-of-type').css('color','green');
+		//层级内第二个span，不一定是第二个子元素
+		$('#paragraph span:nth-of-type(2)').css('color','orange');
+
+		//唯一的子元素p元素
+		$('#paragraph p:only-child').css('color','skyblue');
+		// 唯一的span子元素，不一定只有一个子元素
+		$('#paragraph span:only-of-type').css('color','purple');
+
+		$('#paragraph span:first').css('background','black');
+		
+		$('#paragraph p   :first-child').css('background','yellow');
+
+
+
+	// 基础过滤选择器---------------------
+		//下标等于1
+		$('#olColor li:eq(1)').css('border','2px solid darkcyan');
+		//大于
+		$('#olColor li:gt(1)').css('border','2px solid yellowgreen');
+		//小于
+		$('#olColor li:lt(1)').css('border','2px solid orange');
+		//排除
+		$('#olColor li:not(#olColor li:eq(2))').css('color','orange');
+		//下标偶数（0）/基数/第一个
+		$('#olColor li:even').css('color','skyblue');
+		$('#olColor li:odd').css('color','yellow');
+		$('#olColor li:first').css('background','pink');
+
+		//属性---------
+		console.log($('#olColor li:lang(en)'));
+		$('#olColor li[lang=en]').css('border','2px solid orange'); 
+		//锚点，在路径后面添加'#tar'
+		$('#olColor li:target(tar)').css('background','yellow');
+
+		// 根节点(html)
+		$(':root').css('border','1px solid blue');
+		// 所有h标签
+		$(':header').css('border','1px solid orange');
+
+
+	//属性选择器
+		$('#ulColor li[class]').css('border','1px solid yellowgreen');
+		$('#ulColor li[title=blue]').css('background','skyblue');
+		//除了title=blue之外的所有元素
+		$('#ulColor li[title!=blue]').css('background','pink');
+		//属性前缀用'-'隔开
+		$('#ulColor li[title|=css]').css('background','orange');
+		$('#ulColor li[id|=red]').css('background','hotpink');
+		//属性以color开头/结束
+		$('#ulColor li[id^=color]').css('color','green');
+		$('#ulColor li[id$=color]').css('color','yellow');
+		//包含cn字段
+		$('#ulColor li[lang*=cn]').css('color','red');
+		//包含cn单词，必须是隔开的
+		$('#ulColor li[lang~=cn]').css('color','purple');
+		$('#ulColor li[class=cl][name=sun]').css('color','darkcyan');
+
+
+	// 基础选择器
+		$('#list').css('background','yellowgreen');
+		$('#list .red').css('background','pink');
+		$('#list li,p.red').css('border','1px solid #ccc')
+
+	//层级选择器
+		$('div a').css('color','darkgreen');
+		$('div>a').css('textDecoration','none');
+		$('div a.link + a').css('color','orange'); //下一个兄弟
+		$('div a.link ~ a').css('color','skyblue');//同层所以下面的兄弟
+
+	</script>
 </body>
 </html>

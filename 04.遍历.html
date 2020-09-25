@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/jquery-3.4.1.js"></script>
+</head>
+<style>
+	li{
+		margin-bottom: 5px;
+	}
+	.parent{
+		position: relative;
+	}
+</style>
+<body>
+	<h3>后代</h3>
+	<ul class="child">
+		<li class="pre">pre li</li>
+		<li>
+			<ul class="innerUl">
+				<li>inner</li>
+				<li>inner
+					<ul>
+						<li>inner inner</li>
+					</ul>
+				</li>
+			</ul>
+			<span>span</span>
+		</li>
+		<li class="next">next li</li>
+	</ul>
+
+	<h3>祖先</h3>
+	<ul class="parent">
+		<li class="pre">pre li</li>
+		<li>
+			<ul class="innerUl">
+				<li>inner</li>
+				<li>inner
+				</li>
+			</ul>
+			<span>span</span>
+		</li>
+		<li class="next">next li</li>
+	</ul>
+
+	<h3>兄弟</h3>
+	<ul class="brother">
+		<li class="pre">pre li</li>
+		<li>
+			<span class="span">.span</span>
+			<h4>h4</h4>
+			<span>span</span>
+			<ul class="innerUl">
+				<li>inner</li>
+				<li>inner
+				</li>
+			</ul>
+			<span>span</span>
+			<span>span</span>
+			<ul>
+				<li>li</li>
+			</ul>
+		</li>
+		<li class="next">next li</li>
+	</ul>
+	<script>
+		//获取兄弟元素
+		$('.brother .innerUl').siblings('span').css('color','teal'); //所有兄弟节点
+
+		$('.brother .innerUl').next('span').css('border','1px solid pink'); //下面的一个兄弟节点
+		$('.brother .innerUl').nextAll('span').css('color','orange'); //下面所有兄弟节点
+		$('.brother .innerUl').nextUntil('ul').css('font-weight','700'); //下面截至范围的兄弟节点
+
+		$('.brother .innerUl').prev().css('border','1px solid orange'); //上面的一个兄弟节点
+		$('.brother .innerUl').prevAll('span').css('color','yellow'); //上面所有兄弟节点
+		$('.brother .innerUl').prevUntil('.span').css('background','teal'); //上面截至范围的兄弟节点
+
+
+
+		// 获取祖先元素
+		$('.parent .innerUl li').parent('ul').css('background','pink'); //父元素，只遍历一层
+		$('.parent .innerUl li').parents().css('border','1px solid green'); //所有祖先元素
+		$('.parent .innerUl').parentsUntil('body').css('color','teal'); //截至body的祖先元素，不包括body
+		$('.parent .innerUl li:first').offsetParent().css('border','2px solid orange');//最近带定位的父元素，没有就获取html
+		$('.parent .innerUl').closest('ul').css('color','yellow'); //算自身开始，返回最先匹配的祖先元素
+
+
+		// 获取后代元素
+		$('.child').find('li').css('color','green'); //所有后代元素
+		$('.child').find('li:eq(0)').css('color','pink')
+		$('.child').children(':last').css('background','pink'); //children()可传入选择器参数
+		$('.child').children().css('border','1px solid orange'); //子元素，只向下遍历一层
+
+
+		
+	</script>
+</body>
+</html>
