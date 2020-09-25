@@ -58,7 +58,7 @@
 
 	// 2.
 	// 协议：https   ://   主机：www.baidu.com  路径：/s  ?  参数：ie=utf-8 & f=8
-	var urlStr = 'https://www.bilibili.com/video/BV1f4411R7M5?p=51';
+	// var urlStr = 'https://www.bilibili.com/video/BV1f4411R7M5?p=51';
 	// 原答案
 	// function parUrl (urlstr) {
 	// 		var urlObj = {
@@ -88,6 +88,7 @@
 	// }
 	// console.log(parUrl(urlStr));
 
+	//参考答案
 	// var url = new URL('https://www.bilibili.com/video/BV1f4411R7M5?p=51&c=aa');
 
 	// function urlToObj (url) {
@@ -98,17 +99,17 @@
 	// 	  search: {}
 	// 	}
 	// 	var str = url.search.substr(1);
-		// 第一种 forEach
-		// str.split('&').forEach(function (ele) {
-		// 	result.search[ele.split('=')[0]] = ele.split('=')[1];
-		// });
-		// 第二种 reduce
-		// str.split('&').reduce(function (pre,cur) {
-		// 	var item = cur.split('=');
-		// 	pre[item[0]] = item[1];
-		// 	return pre;
-		// },result.search);
-		// 第三种 for..of遍历 url.searchParams
+	// 	第一种 forEach
+	// 	str.split('&').forEach(function (ele) {
+	// 		result.search[ele.split('=')[0]] = ele.split('=')[1];
+	// 	});
+	// 	第二种 reduce
+	// 	str.split('&').reduce(function (pre,cur) {
+	// 		var item = cur.split('=');
+	// 		pre[item[0]] = item[1];
+	// 		return pre;
+	// 	},result.search);
+	// 	第三种 for..of遍历 url.searchParams
 	// 	console.log(url.searchParams);                  //？？？？？？？？？？？？？
 	// 	for(param of url.searchParams){
 	// 		console.log(param);
