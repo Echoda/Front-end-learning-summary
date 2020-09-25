@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/jquery-3.4.1.js"></script>
+</head>
+<style>
+	.red{
+		background-color: red;
+	}
+	.green{
+		background-color: yellowgreen;
+	}
+	.blue{
+		background-color: skyblue;
+	}
+	.active{
+		background-color: pink;
+	}
+	.css{
+		border:2px solid orange;
+	}
+	.insideAdd{
+		border: 1px solid orange;
+	}
+	.insideAdd p,.outsideAdd p{
+		color: red;
+	}
+	.outsideAdd{
+		border: 1px solid pink;
+	}
+</style>
+<body>
+	<!-- 操作class -->
+	<div class="setClass">
+		<ul>
+			<li>red</li>
+			<li class="green blue">green blue</li>
+			<li class="red green">red green</li>
+		</ul>
+		<p class="active">点击切换</p>
+	</div>
+	<hr>
+	<!-- 插入元素 -->
+	<div class="insideAdd">
+		<p>在内部插入元素</p>
+	</div>
+	<hr>
+	<div class="outsideAdd">
+		<p>在外部插入元素</p>
+	</div>
+	<!-- html与text方法 -->
+	<div class="htmlText">
+		<p>html与text方法</p>
+	</div>
+	<hr>
+	<!-- 包裹元素 -->
+	<div class="wrap">
+		<span>red</span>
+		<span>green</span>
+		<span>orange</span>
+	</div>
+	<hr>
+	<!-- 删除元素 -->
+	<div class="del">
+		<div class="title">title</div>
+		<ul>
+			<li>li</li>
+			<li>li</li>
+			<li>li</li>
+		</ul>
+	</div>
+	<hr>
+	<!-- 克隆与替换元素 -->
+	<div class="clone">
+		<p>被克隆的文字</p>
+		<h2 class="replaceAll">去替换的文字</h2>
+		<div class="name1">sun</div>
+		<div class="name2">echo</div>
+		<h2 class="replaceWith">被替换的文字</h2>
+	</div>
+	<hr>
+	<!-- 通用属性操作 -->
+	<div class="attr">
+		<img src="img/嗯.jpg" sun = 'sun'>
+		<input type="text" value="这是一个输入框">
+	</div>
+	<hr>
+	<!-- css类属性操作 -->
+	<div class="css">
+		<h2></h2>
+		<p></p>
+		<div></div>
+	</div>
+
+	<script>
+	// css类属性操作
+		console.log(
+			$('.css').css('border'),
+			$('.css').css('height')
+		);
+		$('.css h2').css('height','20px').css('background','yellowgreen').text('插入一个标题');
+		$('.css p').css({
+			width:'100px',
+			height:'40px',
+			background:'pink',
+			padding:'5px',
+			border:'2px solid darkgreen'
+		})
+		console.log(
+			$('.css p').innerHeight(),//内容高度，包含padding
+			$('.css p').outerHeight()//包含border
+		);
+		$('.css p').innerHeight(30);//压缩本身的height，若innerHeight小于padding则无效了
+
+		$('.css').css('position','relative');
+		$('.css div').css({
+			position:'absolute',
+			height:'100px',
+			width:'100px',
+			background:'green',
+			left:'100px',
+			top:'200px'
+		})
+		//相对于document offset()
+		console.log(
+			$('.css div').offset().left,//100
+			$('.css div').offset().top //435.625
+		)
+		// 相对于带定位的父元素 position()
+		console.log(
+			$('.css div').position().left,//100
+			$('.css div').position().top //200
+		);
+
+		console.log(
+			$(document).scrollTop(),
+			$(document).scrollLeft()
+		)
+
+
+
+	// 通用属性操作
+		//多个img时，只输出第一个的src（相对路径）
+		console.log('attr',$('.attr img').attr('src'));
+		//输出绝对路径
+		console.log('prop',$('.attr img').prop('src'));
+		$('.attr img').attr('title','加油呀');
+		//prop不能获取/设置自定义属性，只对自带属性有效
+		console.log($('.attr img').attr('sun'),$('.attr img').prop('sun'));
+		$('.attr img').prop({
+			id:'good',
+			echo:'echo'//echo属性并没有添加在标签内，而是添加到了对象身上
+		})
+		console.log($('.attr img').prop('echo'));//echo
+
+		//删除对象身上属性
+		$('.attr img').removeProp('echo');
+		console.log($('.attr input').val());
+
+
+
+	// 克隆与替换元素
+		$('.clone p').click(function() {
+			console.log('clone');
+		});
+		// $('.clone p').clone().appendTo('.clone');
+		//参数设置为true就可克隆事件
+		$('.clone p').clone(true).appendTo('.clone');
+		$('<h3>使用replaceAll方法用h3去替换掉sun</h3>').replaceAll('.clone .name1');
+		//使用已有的元素去替换(把已有元素剪切放到要被替换的位置)
+		$('.clone .name2').replaceAll('.clone .neme1');
+		$('.clone .replaceWith').replaceWith('<h3>使用replaceWith方法被h3替换</h3>');
+
+
+	// 删除元素
+		//清空子元素
+		$('.del ul').empty();
+
+		// 移除自己
+		$('.del .title').click(function() {
+			console.log('title');
+		})
+		var dom = $('.del .title').remove();
+		// $('div').remove('.title'); // another写法
+		// var dom = $('.del .title').detach();
+		console.log('dom',dom);
+		//detach和remove方法都返回被删除的dom，但不同的是datach返回到dom带有绑定的方法，remove没有
+		//重新添加dom后方法依旧存在
+		setTimeout(function() {
+			$('.del').append(dom);
+		},1000);
+
+
+	// 包裹元素
+		// 匹配的每个元素外层包裹li
+		$('.wrap span').wrap('<li>');
+		//匹配的所有元素共同被一个li包裹
+		// $('.wrap span').wrapAll('<li>');
+		//在元素内容外包裹
+		$('.wrap span').wrapInner('<strong>');
+		//删除包裹着的父级
+		$('.wrap span').unwrap();
+
+
+	// html与text方法
+		console.log($('.htmlText').html());
+		$('.htmlText').html('<h2>html方法添加的标题</h2><p>html方法添加的段落</p>');
+		console.log($('.htmlText').text());
+		$('.htmlText').text('<h2>text只能添加文本</h2>');
+
+
+	// 插入元素
+		//内部
+		// 末尾插入
+		$('.insideAdd').append('<h2>append末尾插入</h2>');
+		//将已有元素剪切插入到末尾
+		$('.insideAdd').append($('.insideAdd p'));
+		//另一种写法
+		$('<h2>appendTo末尾插入</h2>').appendTo($('.insideAdd'));
+
+		//开头插入
+		$('.insideAdd').prepend('<h2>prepend开头插入</h2>');
+		$('<h2>prependTo开头插入</h2>').prependTo($('.insideAdd'));
+
+		// 外部
+		// 在后面插入为紧邻的第一个兄弟节点
+		$('.outsideAdd').after('<h2>after末尾插入</h2>');
+		$('<h2>insertAfter插入到后面</h2>').insertAfter($('.outsideAdd'));
+		//在前面插入
+		$('.outsideAdd').before('<h2>before插入到前面</h2>');
+		$('<h2>insertBefore插入到前面</h2>').insertBefore($('.outsideAdd'));
+
+
+	// 操作class
+		// 添加class
+		$('.setClass li:first').addClass('red');
+		//移除class(无参数就移除所有class)
+		$('.setClass li:eq(1)').removeClass('blue');
+		//是否包含class
+		console.log($('.setClass li:eq(1)').hasClass('green'));
+		//toggleClass切换class(有无class之间切换)
+		$('.setClass p').click(function() {
+			$('.setClass p').toggleClass();
+		})
+	</script>
+</body>
+</html>
