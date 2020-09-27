@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	#container{
+		margin: 50px auto 0;
+		width: 400px;
+		height: 250px;
+	}
+	.nav:after{
+		content: '';
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden;
+	}
+	.nav a{
+		display: block;
+		float: left;
+		text-decoration: none;
+		color: #fff;
+		font-weight: 700;
+		background-color: darkcyan;
+		padding: 10px 25px;
+		border-right: 1px solid #fff;
+	}
+	.nav a:nth-of-type(2){
+		background-color: darkgreen;
+	}
+	.nav a:nth-of-type(3){
+		background-color: #008b5a;
+	}
+	.context{
+		height: 100%;
+	}
+	.context div{
+		box-sizing: border-box;
+		width: 100%;
+		height: 100%;
+		padding: 10px;
+		color: darkcyan;
+		border: 1px solid darkcyan;
+		font-size: 35px;
+		font-weight: 700;
+		display: none;
+	}
+	.context div:nth-of-type(2){
+		color: darkgreen;
+		border: 1px solid darkgreen;
+	}
+	.context div:nth-of-type(3){
+		color: #008b5a;
+		border: 1px solid #008b5a;
+	}
+	.context div:target{
+		display: block;
+	}
+</style>
+<body>
+	<div id="container">
+		<div class="nav">
+			<a href="#item1">item1</a>
+			<a href="#item2">item2</a>
+			<a href="#item3">item3</a>
+		</div>
+		<div class="context">
+			<div id="item1">context1</div>
+			<div id="item2">context2</div>
+			<div id="item3">context3</div>
+		</div>
+	</div>
+</body>
+</html>

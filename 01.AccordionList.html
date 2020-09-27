@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	#accordion{
+		margin: 50px auto 0;
+		width: 300px;
+		height: 350px;
+		background-color: #fff;
+		border: 1px solid darkcyan;
+		border-radius: 10px;
+	}
+	#accordion div{
+		text-align: center;
+	}
+	.title{
+		font-size: 35px;
+		font-weight: 700;
+		color: darkcyan;
+		margin: 10px 0;
+	}
+	.list div,.list a{
+		border-radius: 5px;
+		padding: 10px 0;
+	}
+	a{
+		display: block;
+		width: 100%;
+		text-decoration: none;
+		background-color: darkcyan;
+		color: #fff;
+		font-weight: 700;
+		margin-top: 1px;
+	}
+	div[id^=item]{
+		background-color: #fff;
+		color: darkcyan;
+		border-bottom:1px solid darkcyan;
+		border-top:1px solid darkcyan;
+		display: none;
+	}
+	div:target{
+		display: block;
+	}
+</style>
+<body>
+	<div id="accordion">
+		<div class="title">Accordion List</div>
+		<div class="list">
+			<a href="#item1">contain1</a>
+			<div id="item1">text1</div>
+
+			<a href="#item2">contain2</a>
+			<div id="item2">text2</div>
+
+			<a href="#item3">contain3</a>
+			<div id="item3">text3</div>
+
+			<a href="#item4">contain4</a>
+			<div id="item4">text4</div>
+		</div>
+	</div>
+</body>
+</html>
