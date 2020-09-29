@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	body{
+		background-color: #000;
+	}
+	h1{
+		position: absolute;
+		top: calc(50% - 50px);
+		left: calc(50% - 200px);
+		width: 400px;
+		height: 100px;
+		text-align: center;
+		font-size: 50px;
+		color: #fff;
+
+		text-shadow: 0 0 5px #0f0,
+					 0 0 10px #0f0,
+					 0 0 15px #0f0;
+		transition: all 1s;
+	}
+	h1::before{
+		content: 'NO ';
+		text-shadow: 0 0 5px #f00,
+					 0 0 10px #f00,
+					 0 0 15px #f00;
+		opacity: 0;
+		transition: all 1s;
+	}
+	h1:hover{
+		text-shadow: 0 0 5px #f00,
+					 0 0 10px #f00,
+					 0 0 15px #f00;
+	}
+	h1:hover::before{
+		opacity: 1;
+	}
+</style>
+<body>
+	<h1>ACCESS</h1>
+</body>
+</html>

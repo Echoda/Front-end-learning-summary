@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	div{
+		position: absolute;
+		top: calc(50% - 50px);
+		left: calc(50% - 50px);
+		width: 100px;
+		height: 100px;
+		border-radius: 10px;
+		box-shadow: 1px 1px 2px #ccc;
+		transition: all .5s;
+	}
+	div:hover{
+		/*1.*/
+		transform: scale(1.1);
+		box-shadow: 0 4px 8px #aaa;
+
+		/*2.*/
+		/*box-shadow: inset 2px 2px 5px 1px #ccc;*/
+	}
+</style>
+<body>
+	<div></div>
+</body>
+</html>
