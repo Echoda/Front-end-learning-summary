@@ -7,15 +7,18 @@
 </head>
 <style>
 	.main{
+		position: relative;
 		margin: 0 auto;
 		width: 350px;
 		height: 500px;
 		padding: 10px;
 		border: 2px solid #ccc;
 		border-radius: 10px;
-		overflow: hidden;
+		/*overflow: hidden;*/
 	}
 	.container{
+		position: absolute;
+		left: 10px;
 		height: 500px;
 		border: none;
 		padding: 0;
@@ -36,50 +39,53 @@
 		</div>
 	</div>
 	<script>
-		// $('.main').mousedown(function(e) {
-		// 	var startX = e.pageX;
-		// 	var startOffset = $('.container').offset().left;
+		// window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+		$('.main').mousedown(function(e) {
+			var startX = e.pageX;
+			var startOffset = $('.container').offset().left;
+			console.log(startOffset);
+
+			$('.main').mousemove(function(e) {
+				var distance = e.pageX - startX;
+				// $('.container').css('left', startOffset + distance + 'px');
+			})
+
+			$('.main').mouseup(function(e) {
+					if(e.pageX - startX > 100){    //右滑
+						// console.log(1);
+						var move = 370;
+					}else if(e.pageX - startX < -100){  //左滑
+						// console.log(2);
+						var move = -370;
+					}else {          //回归原位
+						// console.log(3);
+						move = 0;
+					}
+					var x = parseInt( $('.container').offset().left / 350 );
+					console.log(x);
+					$('.container').css({
+						transform: 'translateX(' + (x * 350 + move) + 'px)',
+						transition: 'all .5s'
+					});
+					console.log( $('.container').css('left') );
+
+				$('.main').off('mousemove');
+
+			})
+		})
+		// var main = document.getElementsByClassName('main')[0];
+		// main.onmousedown = function() {
 		// 	console.log('down');
 
-		// 	$('.main').mousemove(function(e) {
+		// 	main.onmousemove = function() {
 		// 		console.log('move');
-		// 		var distance = e.pageX - startX;
-		// 		$('.container').css(
-		// 			'transform', 'translateX(' + distance + 'px)'
-		// 		);
 
-		// 		$('.main').mouseup(function(e) {
-		// 			console.log('up');
-		// 			//off
-		// 				// if(distance > 100){    //右滑
-		// 				// 	console.log(1);
-		// 				// 	var move = 350 + 'px';
-		// 				// }else if(distance < -100){  //左滑
-		// 				// 	console.log(2);
-		// 				// 	var move = -350 + 'px';
-		// 				// }else {          //回归原位
-		// 				// 	console.log(3);
-		// 				// 	move = 0;
-		// 				// }
-		// 				// $('.container').offset().left = startOffset + move;
-
-		// 			$(document).off('mousemove');
-
-		// 		})
-		// 	})
-		// })
-		var main = document.getElementsByClassName('main')[0];
-		main.onmousedown = function() {
-			console.log('down');
-
-			main.onmousemove = function() {
-				console.log('move');
-
-				main.onmouseup = function() {
-					console.log('up');
-				}
-			}
-		}
+		// 	}
+		// 	main.onmouseup = function() {
+		// 		main.onmousemove = null;
+		// 		console.log('up');
+		// 	}
+		// }
 	</script>
 </body>
 </html>
