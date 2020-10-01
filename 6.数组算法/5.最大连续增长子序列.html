@@ -7,6 +7,27 @@
 <body>
 	<script>
 		// 计算数组中，最大连续增长子序列长度，如：[1,2,3,4,1,2,3,4,5,1,2,3]，结果为 5 
+
+		var arr = [1,2,3,4,7,1,2,3,4,5,7,1,2,3 ,4,5,6,7,8];
+		function riseLength(arr) {
+			var riseLength = 1,       //每个子序列增长长度
+				maxLength = 0;        //最大增长长度
+			//i <= arr.length 最后一次去到数组最后一位的下一个，巧妙的执行了最后一次的else
+			//否则的话最后一次不会执行else，最后一个子序列的增长长度就不会进行比较
+			//也可以再最后手动比较 maxLength  = riseLength > maxLength ? riseLength : maxLength;
+			for(var i = 0;i <= arr.length;i ++) {
+				var prev = arr[i],
+					next = arr[i + 1];
+				if(next > prev){
+					riseLength ++;
+				}else{
+					maxLength  = riseLength > maxLength ? riseLength : maxLength;
+					riseLength = 1;
+				}
+			}
+			return maxLength;
+		}
+		console.log(riseLength(arr));
 	</script>
 </body>
 </html>

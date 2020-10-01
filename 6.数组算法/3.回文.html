@@ -7,6 +7,21 @@
 <body>
 	<script>
 		// 判断是否为对称数组，形如：[a,b,c,b,a] [a,b,c,c,b,a]
+
+		// var a = ['a','b','c','d','e','e','d','c','b','a'];
+		// var a = ['a','b','c','d','e','d','c','b','a'];
+		var a = ['a','b','c','d','e','c','b','a'];
+		function isSymmetry(arr) {
+
+			for(var i = 0;i < (arr.length / 2);i ++){
+				if(arr[i] != arr[arr.length - 1 - i]){
+					return false;
+				}
+			}
+			return true;
+		}
+		console.log(isSymmetry(a));
+
 	</script>
 </body>
 </html>
