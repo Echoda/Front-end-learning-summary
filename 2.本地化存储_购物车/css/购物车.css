@@ -1,0 +1,134 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+#shopping{
+	width: 1000px;
+	margin: 100px auto;
+}
+table{
+	width: 100%;
+	border: 1px solid #ddd;
+	border-collapse: collapse;
+}
+td{
+	padding: 15px 0;
+	border-bottom: 1px dashed #ddd;
+	text-align: center;
+}
+img{
+	background-color: #f4f4f4;
+	border: 1px solid #eaeaea;
+}
+.products p{
+	color: #333;
+	font-size: 16px;
+	font-weight: 700;
+	margin-bottom: 15px;
+}
+.products tr:hover{
+	background-color: #fffbf0;
+}
+/*颜色选择区*/
+.products tr td:nth-of-type(2){
+	text-align: left;
+}
+/*.color{
+	margin-top: 15px;
+}*/
+.color span{
+	display: inline-block;
+	width: 54px;
+	height: 26px;
+	color: #666;
+	font-size: 12px;
+	text-align: center;
+	vertical-align: middle; /*让span一排始终对齐*/
+	line-height: 26px;
+	border: 1px solid #ddd;
+	margin-right: 10px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+.color .active{
+	border: 2px solid #b4a078;
+	line-height: 24px;
+	background: url(../images/ico_02.gif) no-repeat right bottom;
+}
+
+/*单价*/
+.products tr td:nth-of-type(3){
+	color: #d90808;
+	font-size: 16px;
+}
+
+/*选择数量区*/
+.products tr td:nth-of-type(4){
+	/*去掉inline-block元素间默认的间隔*/
+	font-size: 0; 
+}
+.products tr td:nth-of-type(4) span,
+.products tr td:nth-of-type(4) strong{
+	display: inline-block;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+}
+.products tr td:nth-of-type(4) span{
+	width: 24px;
+	font-size: 14px;
+	cursor: pointer;
+}
+.products tr td:nth-of-type(4) strong{
+	width: 58px;
+	font-size: 12px;
+	border-left: 0;
+	border-right: 0;
+}
+
+/*加购按钮*/
+.products button{
+	height: 50px;
+	padding: 0 20px;
+	background-color: #cb4a61;
+	color: #fff;
+	border: 0;
+	outline: none;
+	cursor: pointer;
+}
+
+/*购物车区*/
+
+.selected{
+	margin-top: 20px;
+}
+/*表头*/
+thead{
+	background-color: #F5F5F5;
+	border-bottom: 1px solid #ddd;
+	color: #000;
+	font-size: 16px;
+	font-weight: 400;
+}
+thead strong,
+thead span{
+	vertical-align: middle;
+}
+thead strong{
+	color: #d90808;
+	font-size: 24px;
+	margin-left: 5px;
+}
+th{
+	height: 50px;
+}
+.selected tbody{
+	color: #999;
+	font-size: 14px;
+}
+.selected button{
+	padding: 2px 5px;
+	cursor: pointer;
+}

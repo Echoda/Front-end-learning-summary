@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	.drag{
+		position: absolute;
+		left: 100px;
+		top: 100px;
+		width: 100px;
+		height: 100px;
+		background-color: orange;
+	}
+</style>
+<body>
+	<div class="drag"></div>
+	<script>
+		// 封装cookie对象
+		var manageCookie = {
+			// 设置cookie
+			set:function(name,value,time) {
+				// 传入time单位为天
+				// var endDate = new Date();  //过期时间   GMT格式
+				// endDate.setDate(endDate.getDate() + time);  //setDate设置日期为几日
+				// document.cookie = name + '=' + value + '; expires=' + endDate;
+
+				//传入time单位为秒
+				document.cookie = name + '=' + value + '; max-age=' + time;
+			},
+			// 获取cookie
+			get:function(name) {
+				var cookies = document.cookie.split('; ');//['name=sun','left=100']
+
+				for(var k in cookies){  // 'name=sun'
+					//split方法不改变原数组,要存储起来
+					var item = cookies[k].split('=');  
+					if(item[0]==name){
+						return item[1];
+					}
+				}
+
+			},
+			// 移除cookie
+			remove:function(name) {
+				this.set(name,'',0);    //将有效时间设为0
+			}
+		}
+		manageCookie.set('name','sun',1000);
+		console.log(manageCookie.get('name'));
+
+		//拖拽对象
+		var drag = {
+			inite:function(dom) {
+				this.dom = dom;
+				this.bindEvent();
+
+				//判断cookie中是否已有数据
+				var l = manageCookie.get('left');
+				var t = manageCookie.get('top');
+				this.dom.style.left = l ? l + 'px' : this.dom.offsetLeft + 'px';
+				this.dom.style.top = t ? t + 'px' : this.dom.offsetTop + 'px';
+			},
+			bindEvent:function() {
+				this.dom.onmousedown = this.mousedDown.bind(this);
+			},
+			mousedDown:function(e) {
+				document.onmousemove = this.mouseMove.bind(this);
+				document.onmouseup = this.mouseUp.bind(this);
+
+				this.disX = e.clientX - this.dom.offsetLeft;
+				this.disY = e.clientY - this.dom.offsetTop;
+				console.log(this.disX);
+			},
+			mouseMove:function(e) {
+				this.newLeft = e.clientX - this.disX;
+				this.newTop = e.clientY - this.disY;
+
+				this.dom.style.left = this.newLeft + 'px';
+				this.dom.style.top = this.newTop + 'px';
+			},
+			mouseUp:function(e) {
+				document.onmousemove = null;
+
+				//利用cookie存储
+				manageCookie.set('left',this.newLeft,10000);
+				manageCookie.set('top',this.newTop,10000);
+			}
+		}
+		drag.inite(document.querySelector('.drag'));
+	</script>
+</body>
+</html>
