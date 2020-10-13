@@ -1,5 +1,5 @@
-//购物车数据,要先获取过来
-var iShoppingDate = {};
+var iShoppingDate = {};    //购物车数据,要先获取过来
+var prevColorLen = 0;      //前面组的色卡的总数，用于对应imgsrc中的数字
 
 function init() {
 	iShoppingDate = JSON.parse(localStorage.getItem('shoppingCar')) || {};
@@ -55,13 +55,15 @@ function createGoodsDom(data) {
 function addEvent(){
 	var trs = document.querySelectorAll('.products tr');  //所有行
 	for(var i = 0;i < trs.length; i ++){
-		action(trs[i],i);      //将trs[i],i作为参数传递，action内部会有异步绑定，闭包问题
+		trs[i-1] && (prevColorLen += trs[i-1].querySelectorAll('.color span').length);
+		action(trs[i],i,prevColorLen);      //将trs[i],i作为参数传递，action内部会有异步绑定，闭包问题
 	}
 }
 
-function action(tr,n) {
+function action(tr,n,prevColorLen) {
 
-	var oSpans = tr.querySelectorAll('.color span'), //同一行中色卡组
+	var oColorDiv = tr.querySelector('.color'),      //色卡组的父级div
+		oSpans = tr.querySelectorAll('.color span'), //同一行中色卡组
 		oActiveColor = null,                             //激活状态的色卡span
 		oSubBtn = tr.children[3].children[0],         //减按钮
 		oAddBtn = tr.children[3].children[2],          //加按钮
@@ -70,29 +72,43 @@ function action(tr,n) {
 		oCar = tr.querySelector('button');           //加购按钮
 
 // 1.点击颜色事件：选中的颜色具有active样式，图片跟随改变,再次点击样式消失，图片恢复默认
-	for(var i = 0;i < oSpans.length;i ++){
-
-		(function (m) { 
-			oSpans[i].addEventListener('click', function() {
-
-				for(var j = 0;j < oSpans.length;j ++){  //清除类名
-					//若点击的span是正处于active的,就不操作,而是留给下一个三目判断
-					oSpans[j].className = this == oSpans[j] && this.className == 'active' ? 'active' : '' ;
-				}
-				//类名空则添加类名active,类名active则清除
-				this.className = this.className ? '' : 'active';
-				this.className && (oActiveColor = this);
-
-				//更换图片
-				if(!this.className){  // 若类名都为空,回复默认图片
-					oImg.src = 'images/img_0' + (n+1) + '-1.png';
-				}else {              //类名不为空时
-					oImg.src = 'images/img_0' + (n+1) + '-' + (m+1) + '.png';
-				}
-				// console.log(oImg.src);    //要用attribute取src
-			})
-		})(i);
+// 使用事件委托，为父级绑定点击事件
+	oColorDiv.onclick = function(e) {
+		if(e.target.tagName == 'SPAN'){
+			//色卡样式
+			oActiveColor = this.querySelector('.active');
+			oActiveColor && oActiveColor.classList.remove('active'); //清除active色卡的类名
+			e.target.classList.add('active');
+			e.target == oActiveColor && e.target.classList.remove('active');//正active则清除active
+			oActiveColor = this.querySelector('.active');  //更新oActiveColor
+			//更新图片
+			var imgIndex = e.target.dataset.id - 10000 - prevColorLen; //找id和img数字的规律
+			var imgSrc = e.target.classList.contains('active') ? 'images/img_0' + (n+1) + '-' + imgIndex + '.png' : 'images/img_0' + (n+1) + '-1.png';
+			oImg.src = imgSrc;
+		}
 	}
+// 常规循环遍历绑定的方法，创建多个事件，浪费空间
+	// 	for(var i = 0;i < oSpans.length;i ++){
+	// 	(function (m) { 
+	// 		oSpans[i].addEventListener('click', function() {
+
+	// 			for(var j = 0;j < oSpans.length;j ++){  //清除类名
+	// 				//若点击的span是正处于active的,就不操作,而是留给下一个三目判断
+	// 				oSpans[j].className = this == oSpans[j] && this.className == 'active' ? 'active' : '' ;
+	// 			}
+	// 			//类名空则添加类名active,类名active则清除
+	// 			this.className = this.className ? '' : 'active';
+	// 			this.className && (oActiveColor = this);
+	// 			//更换图片
+	// 			if(!this.className){  // 若类名都为空,回复默认图片
+	// 				oImg.src = 'images/img_0' + (n+1) + '-1.png';
+	// 			}else {              //类名不为空时
+	// 				oImg.src = 'images/img_0' + (n+1) + '-' + (m+1) + '.png';
+	// 			}
+	// 			// console.log(oImg.src);    //要用attribute取src
+	// 		})
+	// 	})(i);
+	// }
 
 // 2.加减按钮事件
 	oAddBtn.onclick = function() {
