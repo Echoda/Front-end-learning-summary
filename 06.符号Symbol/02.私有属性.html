@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// 立即执行函数返回对象,把getRandom变为私有，外界无法通过常规方法访问
+		const hero = (() => {
+			const getRandom = Symbol('获取随机数'); 
+			return {
+				attack:30,
+				hp:100,
+				defence:10,
+				gongji(){
+					const dmg = this.attack*this[getRandom](0.8,1.1);
+					console.log('dmg:',dmg);
+				},
+				[getRandom](min,max){
+					return Math.random() * (max - min) + min;
+				}
+			}
+		})();
+		hero.gongji();
+		
+		//返回类
+		const hero2 = (() => {
+			const getRandom = Symbol('获取随机数'); 
+			return class{
+				constructor(attack,hp,defence){
+					this.attack = attack;
+					this.hp = hp;
+					this.defence = defence;
+				}
+				gongji(){
+					const dmg = this.attack*this[getRandom](0.8,1.1);
+					console.log('dmg:',dmg);
+				}
+				[getRandom](min,max){
+					return Math.random() * (max - min) + min;
+				}
+			}
+		})(); 
+		const h1 = new hero2(30,100,10);
+		h1.gongji();
+	</script>
+</body>
+</html>

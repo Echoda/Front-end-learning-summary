@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="ajax.js"></script>
+</head>
+<body>
+	<script>
+		//获取李华所在班级的老师的信息
+		ajax({
+			type:'get',
+			contentType: 'application/x-www-form-urlencoded',
+			url:'./data/students.json'
+			
+		}).then(result => {
+			for(let i = 0;i < result.length;i ++){
+				if(result[i].name == '李华'){
+					// console.log(result[i].classId=51);
+					return result[i].classId;
+				}
+			}
+
+		}).then(cid => {
+			return ajax({
+				url:'./data/classes.json'
+			}).then(classes => {
+				for(let i = 0;i < classes.length;i ++){
+				if(classes[i].id == cid){
+					// console.log(classes[i]);
+					return classes[i].teacherId;
+				}
+			}
+			})
+
+		}).then(tid => {
+			return ajax({
+				url:'./data/teachers.json'
+			}).then(teachers => {
+				for(let i = 0;i < teachers.length;i ++){
+				if(teachers[i].id == tid){
+					// console.log(teachers[i]);
+					return teachers[i];
+				}
+			}
+			})
+
+		}).then(teacher => {
+			console.log(teacher);
+		})
+	</script>
+</body>
+</html>

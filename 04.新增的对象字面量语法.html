@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// 1.对象属性名和属性值相同时可简写
+		var name = 'sun';
+		var hoppy = ['eat','run'];
+		var person = {
+			name,
+			hoppy
+		};
+		console.log(person.hoppy);
+
+		//方法速写：对象属性值为函数时，可省略 ":function"
+		var obj = {
+			say(){
+				console.log('hhhhh');
+			}
+		};
+		obj.say();
+		//计算属性名:属性名为变量或表达式时，用[]
+		var name = 'sun' + 'lan';
+		var person2 = {
+			[name]:18,
+			[2*2+'hh']:'where'
+		};
+		console.log(person2);
+	</script>
+</body>
+</html>

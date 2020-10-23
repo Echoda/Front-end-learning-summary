@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+// 1.基本符合
+		//唯一性
+		let s1 = Symbol('描述文本');
+		let s2 = Symbol('描述文本');
+		console.log(s1,s2,s1 === s2);  
+
+		console.log(typeof s1);
+		//显式转换为string
+		let str1 = String(s1);   
+		console.log(str1, typeof str1);
+
+		//符号属性获取
+		let s3 = Symbol('属性1');
+		let s4 = Symbol('属性2');
+		let obj = {
+			[s3]: '属性值1',
+			[s4]: '属性值2',
+			'name': 'sun'
+		}
+		console.log('obj:',obj);
+		for(var k in obj){       //for...in无法读取
+			console.log('for...in:',k);
+			console.log(obj[k]); 
+		}
+		console.log('Object.keys:',Object.keys(obj));
+		console.log('getOwnPropertyNames:',Object.getOwnPropertyNames(obj));
+		console.log('Object.getOwnPropertySymbols:',Object.getOwnPropertySymbols(obj));
+		console.log('Reflect.ownKeys:',Reflect.ownKeys(obj));
+
+// 2.共享符号:描述文本相同，符号就相同
+		let s5 = Symbol.for('s1');
+		let s6 = Symbol.for('s1');
+		console.log('共享符号:',s5,s6,s5 ===s6);
+
+	</script>
+</body>
+</html>

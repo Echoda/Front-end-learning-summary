@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function foo(a, b=2, c=3) {
+			console.log(a + b + c);
+		}
+		foo(1);
+		foo(2,3);
+		function bar(a,b=2*3-4){
+			console.log(a + b);
+		}
+		bar(1);
+		bar(2,8);
+	</script>
+</body>
+</html>
