@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<button>获取省份数据</button>
+	<script>
+		const btn = document.querySelector('button');
+		btn.onclick = function(){
+			getData('http://101.132.72.36:5100/api/local');
+		}
+		async function getData(url){
+			const resp =  fetch(url);
+			console.log(resp);
+			const respJson = await resp.json();
+			console.log(respJson);
+		}
+	</script>
+</body>
+</html>

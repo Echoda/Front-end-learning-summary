@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="ajax.js"></script>
+</head>
+<body>
+	<script>
+		//获取李华所在班级的老师的信息
+		(async function() {
+			const stus = await ajax({url:'./data/students.json'});
+			let cid;
+			for(let i = 0;i < stus.length;i ++){
+				if(stus[i].name == '李华'){
+					cid = stus[i].classId;
+				}
+			}
+			const clas = await ajax({url:'./data/classes.json'});
+			let tid;
+			for(let i = 0;i < clas.length;i ++){
+				if(clas[i].id == cid){
+					tid = clas[i].teacherId;
+				}
+			}
+			const ts = await ajax({url:'./data/teachers.json'});
+			for(let i = 0;i < ts.length;i ++){
+				if(ts[i].id == tid){
+					console.log(ts[i]);
+				}
+			}
+		})();
+	</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// (async function test(){
+		//     const result = await 1;
+		//     console.log(result);
+		// })();
+		// console.log(2);
+		
+		// 等价于
+		(async function test(){
+			const result = await Promise.resolve(1).then(data => console.log(data));//then中为异步,1后输出
+		})();
+		console.log(2);
+	</script>
+</body>
+</html>

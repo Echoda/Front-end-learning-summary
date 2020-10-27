@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="file">
+	<button>上传</button>
+	<img src="" alt="">
+	<script>
+		const btn = document.querySelector('button');
+		const inp = document.querySelector('input');
+
+		async function upload() {
+
+			const formData = new FormData(); //构建请求体
+			formData.append('imagefile',inp.files[0]); //append方法添加值,inp.files获取文件数据
+			const resp = await fetch('http://101.132.72.36:5100/api/upload',{
+				method:'post',
+				body: formData//会自动将请求头中Content-Type设为multipart/form-data
+			});
+			return resp.json();
+		}
+
+		btn.onclick = async function() {
+			const img = document.querySelector('img');
+			if(inp.files.length == 0){
+				alert('请选择文件');
+			}
+			var imgSrc = await upload();
+			//imgSrc: {path: "http://images.yuanjin.tech/FiDiahBH2Am_7he-bjD_K9aD_2eQ"}
+			img.src = imgSrc.path;
+		}
+	</script>
+</body>
+</html>
