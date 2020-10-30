@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<p>
+		<span>姓名：</span> <span id="name"></span>
+	</p>
+	<p>
+		<span>年龄：</span> <span id="age"></span>
+	</p>
+	<script>
+		const Oname = document.querySelector('#name'); 
+		const Oage = document.querySelector('#age'); 
+		const obj = {};
+
+		Object.defineProperties(obj, {
+			age:{
+				set(value){
+					if(typeof value != 'number'){
+						throw new TypeError('年龄必须为数字');
+					}
+					if(value < 0){
+						Oage.innerText = 0;
+					}else if(value > 200){
+						Oage.innerText = 200;
+					}
+					Oage.innerText = value;
+				},
+				get(){
+					return +Oage.innerText;
+				}
+			},
+			name:{
+				set(value){
+					Oname.innerText = value;
+				},
+				get(){
+					return Oname.innerText;
+				}
+			}
+		})
+
+		// const obj = {
+		// 	a: 1
+		// }
+
+		// Object.defineProperty(obj, 'b', {
+		// 	get(){
+		// 		console.log('get方法运行');
+		// 		return obj._a;
+		// 	},
+		// 	set(value){
+		// 		obj._a = value;
+		// 		console.log('set方法运行');
+		// 	}
+		// })
+	</script>
+</body>
+</html>

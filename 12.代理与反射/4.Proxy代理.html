@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		const obj = {
+			a: 1,
+			b: 2
+		};
+
+		const p = new Proxy(obj,{
+			set(target,propertyKey,value){
+				// target[propertyKey] = value;
+				console.log('set');
+				Reflect.set(target,propertyKey,value);
+			},
+			get(target,propertyKey){
+				console.log('get');
+				if(Reflect.has(target,propertyKey)){
+					return Reflect.get(target,propertyKey);
+				}else{
+					return -1;
+				}
+			},
+			has(target,propertyKey){
+				return Reflect.has(target,propertyKey);
+			}
+		})
+		console.log(p);  //Proxy {a: 1, b: 2}
+		p.a = 'a';       //set
+		console.log(p.a); //get  a
+		console.log(p.c); //get -1
+		console.log('b' in p);  //true
+		console.log('c' in p);  //false
+
+
+
+	</script>
+</body>
+</html>

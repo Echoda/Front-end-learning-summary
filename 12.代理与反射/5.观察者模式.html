@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="container">
+		
+	</div>
+	<script>
+		//创建一个观察者(代理)
+		// function observer(target){
+
+		// 	const div = document.querySelector('.container');
+		// 	let ob = {};
+		// 	const keys = Object.keys(target);
+
+		// 	for(const prop of keys){
+		// 		Object.defineProperty(ob, prop, {
+		// 			get(){
+		// 				return target[prop];
+		// 			},
+		// 			set(value){
+		// 				target[prop] = value;
+		// 				render();
+		// 			},
+		// 			enumerable: true
+		// 		})
+		// 	}
+		// 	render();
+		// 	function render(){
+		// 		let temp = ``;
+		// 		for(const prop of keys){
+		// 			temp += ` 
+		// 			<p><span>${prop}</span><span>${target[prop]}</span></p>
+		// 			`;
+		// 		}
+		// 		div.innerHTML = temp;
+		// 	}
+		// 	return ob;
+		// }
+
+		//Proxy实现
+		function observer(target){
+
+			const div = document.querySelector('.container');
+			render();
+
+			return new Proxy(target,{
+				get(target,propertyKey){
+					return Reflect.get(target,propertyKey);
+				},
+				set(target,propertyKey,value){
+					Reflect.set(target,propertyKey,value);
+					render();
+				}
+			});
+
+			function render(){
+				const keys = Object.keys(target);
+				let temp = ``;
+				for(const prop of keys){
+					temp += ` 
+					<p><span>${prop}</span><span>${target[prop]}</span></p>
+					`;
+				}
+				div.innerHTML = temp;
+			}
+		}
+
+		const obj = {
+			a: 1,
+			b: 2
+		};
+		const ob = observer(obj);
+	</script>
+</body>
+</html>

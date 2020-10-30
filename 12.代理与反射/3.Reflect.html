@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		const obj = {
+			a: 1,
+			b: 2
+		} 
+		console.log(Reflect.get(obj,'a'));
+		Reflect.set(obj,'a','a');
+		console.log(obj.a);
+
+		console.log(Reflect.has(obj,'b'));
+
+		Reflect.deleteProperty(obj,'b');
+		console.log(obj);
+
+		Reflect.defineProperty(obj, 'b', {
+			value: 'b',
+			configurable: false,
+			enumerable: true,
+			writable: false       //三个属性默认都是false
+		})
+		console.log(obj,Object.getOwnPropertyDescriptor(obj, 'b'));
+
+		Reflect.defineProperty(obj, 'b', {
+			value: 'bb',
+			enumerable: false,
+			writable: true      //不报错，只是无效
+		})
+		console.log(obj,Object.getOwnPropertyDescriptor(obj, 'b'));
+
+
+		obj.b = 2;
+		console.log(obj.b);
+
+		function method(a,b){
+			console.log('method',a,b)
+		}
+		console.log(Reflect.apply(method,null,[1,2]));
+
+		function Test(a,b){
+			this.a = a;
+			this.b = b;
+		}
+		const t = new Test(1,2);
+		const t2 = Reflect.construct(Test,[1,2]);
+		console.log(t,t2);
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		let obj = {
+			a: 1,
+			b: 2
+		}
+
+		Object.defineProperty(obj, 'a', {
+
+			writable: true,
+			configurable: false
+		});
+
+		Object.defineProperty(obj, 'a', {
+			// enumerable: false,
+			// configurable: true
+			writable: false
+		});
+
+		Object.defineProperties(obj, {
+			'a':{
+				// enumerable: false,
+				// configurable: true,
+				
+				writable: false
+			},
+			'b':{
+				value:'b'
+			}
+		});
+
+
+		console.log(Object.getOwnPropertyDescriptor(obj, 'a'));
+		// console.log(Object.getOwnPropertyDescriptors(obj));
+
+		console.log(Object.keys(obj));
+
+
+		for(var k in obj){
+			console.log(obj[k]);
+		}
+	</script>
+</body>
+</html>
