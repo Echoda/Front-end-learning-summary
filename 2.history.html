@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="text">
+	<button>search</button>
+	<div id="container"></div>
+	<script>
+		const container = document.querySelector('#container');
+		const inp = document.querySelector('input');
+		const btn = document.querySelector('button');
+
+		const data = [
+			{value: 'html'},
+			{value: 'css'},
+			{value: 'lan'},
+			{value: 'sun'},
+			{value: 'js'},
+		];
+		render(data);
+
+		btn.onclick = function() {
+			search();
+			//记录状态
+			history.pushState({value: inp.value}, null, '#'+ inp.value);
+		}
+
+		function search(){
+			let inpVal = inp.value;
+			const result = data.filter(function(item) {
+				return item.value.includes(inpVal);
+			});
+			render(result);
+		}
+
+		function render(data){
+			let temp = ``;
+			data.forEach(function(item){
+				temp += `<p>${item.value}</p>`;
+			});
+			container.innerHTML = temp;
+		}
+
+		//popstate: url改变时触发，比 hashchange 事件先执行
+		window.addEventListener('popstate',function(e) { 
+			// console.log(e);
+			if(e.state){
+				inp.value = e.state.value;
+				search();
+			}else{
+				 inp.value = '';
+				 render(data);
+			}
+		})
+		//哈希值（锚点）改变时触发
+		// window.addEventListener('hashchange',function(e) {
+		// 	console.log(e);
+		// })
+	</script>
+</body>
+</html>

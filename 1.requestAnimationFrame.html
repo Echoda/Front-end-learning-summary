@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	.box{
+		position: absolute;
+		left: 0;
+		width: 100px;
+		height: 100px;
+		background-color: orange;
+	}
+</style>
+<body>
+	<div class="box"></div>
+	<script>
+		var timer;
+		function move(){
+			var box = document.querySelector('.box');
+			box.style.left = box.offsetLeft + 20 + 'px';
+			timer = window.requestAnimationFrame(move);
+			
+			if(box.offsetLeft > 700){
+				window.cancelAnimationFrame(timer);
+			}
+		}
+		move();
+	</script>
+</body>
+</html>
