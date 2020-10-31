@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<script>
+		const arr = Array.of(1,2,3);
+		const arr2 = Array.of(3);
+		console.log(arr,arr2);
+
+		const divs = document.querySelectorAll('div');
+		const divArr = Array.from(divs);
+		console.log(divArr);
+
+		const objArr = [
+			{name:'a',id:1},
+			{name:'b',id:2},
+			{name:'c',id:3},
+			{name:'d',id:4},
+			{name:'e',id:5},
+		];
+		console.log(objArr.find( item => item.id == 5 ));
+		console.log(objArr.findIndex( item => item.id == 5) );
+
+		const arr3 = new Array(15);
+		arr3.fill(2);
+		console.log(arr3);
+
+		const arr4 = [1,2,3,4,5,6,7];   //会改变原数组
+		console.log(arr4.copyWithin(2)); //[1, 2, 1, 2, 3, 4, 5]
+		console.log(arr4.copyWithin(3,1)); //[1, 2, 1, 2, 1, 2, 3]
+		const arr5 = [1,2,3,NaN,5,6,7];
+		console.log(arr5.copyWithin(3,1,4)); //[1, 2, 3, 2, 3, 4, 7]
+
+		console.log(arr5.includes(7));
+		console.log(arr5.includes(NaN));
+	</script>
+</body>
+</html>
